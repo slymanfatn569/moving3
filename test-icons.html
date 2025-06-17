@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Icon Test Page</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin: 20px; }
+    .icon-container { 
+      display: flex; 
+      flex-wrap: wrap; 
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .icon-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #eee;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    img { border: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>Icon Test Page</h1>
+  <p>This page checks if all icons are loading correctly</p>
+  
+  <h2>Root Icons</h2>
+  <div class="icon-container">
+    <div class="icon-wrapper">
+      <img src="/icon-192x192.png" alt="Icon 192x192" width="96">
+      <p>icon-192x192.png</p>
+    </div>
+    <div class="icon-wrapper">
+      <img src="/icon-512x512.png" alt="Icon 512x512" width="96">
+      <p>icon-512x512.png</p>
+    </div>
+  </div>
+
+  <h2>Icons Folder - All Sizes (Dash Format)</h2>
+  <div class="icon-container">
+    <div class="icon-wrapper">
+      <img src="/icons/icon-72x72.png" alt="Icon 72x72" width="72">
+      <p>icon-72x72.png</p>
+    </div>
+    <div class="icon-wrapper">
+      <img src="/icons/icon-96x96.png" alt="Icon 96x96" width="96">
+      <p>icon-96x96.png</p>
+    </div>
+    <div class="icon-wrapper">
+      <img src="/icons/icon-128x128.png" alt="Icon 128x128" width="96">
+      <p>icon-128x128.png</p>
+    </div>
+    <div class="icon-wrapper">
+      <img src="/icons/icon-144x144.png" alt="Icon 144x144" width="96">
+      <p>icon-144x144.png</p>
+    </div>
+    <div class="icon-wrapper">
+      <img src="/icons/icon-152x152.png" alt="Icon 152x152" width="96">
+      <p>icon-152x152.png</p>
+    </div>
+    <div class="icon-wrapper">
+      <img src="/icons/icon-192x192.png" alt="Icon 192x192" width="96">
+      <p>icon-192x192.png</p>
+    </div>
+    <div class="icon-wrapper">
+      <img src="/icons/icon-384x384.png" alt="Icon 384x384" width="96">
+      <p>icon-384x384.png</p>
+    </div>
+    <div class="icon-wrapper">
+      <img src="/icons/icon-512x512.png" alt="Icon 512x512" width="96">
+      <p>icon-512x512.png</p>
+    </div>
+  </div>
+
+  <h2>Icons Folder - Underscore Format</h2>
+  <div class="icon-container">
+    <div class="icon-wrapper">
+      <img src="/icons/icon_144x144.png" alt="Icon 144x144" width="96">
+      <p>icon_144x144.png</p>
+    </div>
+    <div class="icon-wrapper">
+      <img src="/icons/icon_192x192.png" alt="Icon 192x192" width="96">
+      <p>icon_192x192.png</p>
+    </div>
+  </div>
+
+  <h2>Special Icons</h2>
+  <div class="icon-container">
+    <div class="icon-wrapper">
+      <img src="/icons/contact-icon-192x192.png" alt="Contact Icon" width="96">
+      <p>contact-icon-192x192.png</p>
+    </div>
+    <div class="icon-wrapper">
+      <img src="/icons/services-icon-192x192.png" alt="Services Icon" width="96">
+      <p>services-icon-192x192.png</p>
+    </div>
+    <div class="icon-wrapper">
+      <img src="/icons/maskable-icon-512x512.png" alt="Maskable Icon" width="96">
+      <p>maskable-icon-512x512.png</p>
+    </div>
+  </div>
+
+  <h2>Error Testing</h2>
+  <div class="icon-container">
+    <div class="icon-wrapper">
+      <img src="/icons/non-existent-icon.png" alt="Non-existent Icon" width="96" onerror="this.src='/images/placeholder.jpg'">
+      <p>non-existent-icon.png<br>(should show placeholder)</p>
+    </div>
+  </div>
+
+  <script>
+    // Add error handling for icon display problems
+    document.querySelectorAll('img').forEach(img => {
+      img.addEventListener('error', (event) => {
+        console.warn('Icon failed to load:', event.target.src);
+        
+        // Try alternative name format
+        const currentSrc = event.target.src;
+        if (currentSrc.includes('-')) {
+          event.target.src = currentSrc.replace(/-/g, '_');
+        } else if (currentSrc.includes('_')) {
+          event.target.src = currentSrc.replace(/_/g, '-');
+        }
+        
+        // If that fails, use placeholder
+        event.target.onerror = function() {
+          event.target.src = '/images/placeholder.jpg';
+          event.target.onerror = null; // Prevent infinite error loops
+        };
+      });
+    });
+  </script>
+</body>
+</html> 
