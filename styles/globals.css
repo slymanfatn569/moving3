@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar for Arabic UI */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a4365;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1a365d;
+}
+
+/* Eliminar cursor de texto en elementos de texto y encabezados */
+h1, h2, h3, h4, h5, h6, p, span, a, button, li {
+  caret-color: transparent;
+}
+
+/* Mantener cursor de texto en campos de formulario */
+input, textarea, [contenteditable="true"] {
+  caret-color: auto;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-amiri;
+    user-select: none; /* Evitar la selección de texto en encabezados */
+  }
+  
+  h1 {
+    @apply text-3xl md:text-4xl font-bold mb-6;
+  }
+  
+  h2 {
+    @apply text-2xl md:text-3xl font-bold mb-4 mt-8;
+  }
+  
+  h3 {
+    @apply text-xl md:text-2xl font-bold mb-3 mt-6;
+  }
+  
+  p {
+    @apply mb-4;
+  }
+  
+  ul, ol {
+    @apply mb-4 pl-6;
+  }
+  
+  ul {
+    @apply list-disc;
+  }
+  
+  ol {
+    @apply list-decimal;
+  }
+  
+  a {
+    @apply text-primary hover:text-accent transition-colors;
+    user-select: none; /* Evitar la selección de texto en enlaces */
+  }
+  
+  header a {
+    @apply text-white hover:text-white;
+  }
+  
+  blockquote {
+    @apply border-l-4 border-accent pl-4 italic my-6;
+  }
+  
+  code {
+    @apply bg-gray-100 rounded px-1 py-0.5 font-mono text-sm;
+  }
+  
+  pre {
+    @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-6;
+  }
+  
+  table {
+    @apply w-full border-collapse my-6;
+  }
+  
+  th, td {
+    @apply border border-gray-300 p-2;
+  }
+  
+  th {
+    @apply bg-gray-100;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-2 border border-transparent rounded-md shadow-sm text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors;
+  }
+  
+  .btn-primary {
+    @apply bg-primary hover:bg-primary-dark text-white focus:ring-primary;
+  }
+  
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-primary border-primary focus:ring-primary;
+  }
+  
+  .btn-accent {
+    @apply bg-accent hover:bg-accent-dark text-white focus:ring-accent;
+  }
+  
+  .card {
+    @apply bg-white p-6 rounded-lg shadow-md;
+  }
+  
+  .section-title {
+    @apply text-3xl font-bold mb-6 text-center;
+  }
+  
+  .navbar-link {
+    @apply text-white font-bold tracking-wide drop-shadow-md text-shadow;
+  }
+
+  .navbar-link:hover {
+    @apply text-white brightness-110;
+  }
+
+  .navbar-link.active {
+    @apply text-white relative;
+  }
+
+  .text-shadow {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  .navbar-link:hover::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #ed8936, transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* تضمين الخطوط العربية */
+/* استفادة من تنزيل الخطوط من جوجل مباشرة - لا حاجة للتعريفات @font-face هنا */
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+/* توافق مع RTL */
+.rtl\:space-x-reverse > * + * {
+  margin-right: 0.5rem;
+  margin-left: 0;
+} 

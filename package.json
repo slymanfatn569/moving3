@@ -1,0 +1,57 @@
+{
+  "name": "@slymanfatn569/moving3",
+  "version": "0.1.0",
+  "description": "Moving and relocation services blog",
+  "main": "index.js",
+  "homepage": "https://slymanfatn569.github.io/moving3",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "analyze": "cross-env ANALYZE=true next build",
+    "predeploy": "rimraf out && next build && next export && powershell -Command \"New-Item -Path out\\.nojekyll -ItemType File -Force\" && rimraf out/_next/data",
+    "deploy": "gh-pages -d out"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^3.11.0",
+    "@next/bundle-analyzer": "^14.0.3",
+    "@tailwindcss/typography": "^0.5.10",
+    "date-fns": "^2.30.0",
+    "gray-matter": "^4.0.3",
+    "next": "13.5.6",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-icons": "^4.11.0",
+    "react-markdown": "^9.0.0",
+    "react-slick": "^0.29.0",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.0",
+    "rimraf": "^5.0.5",
+    "slick-carousel": "^1.8.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10",
+    "cross-env": "^7.0.3",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.3",
+    "gh-pages": "^6.3.0",
+    "postcss": "^8",
+    "tailwindcss": "^3"
+  },
+  "keywords": [
+    "moving",
+    "relocation",
+    "furniture",
+    "blog"
+  ],
+  "author": "slymanfatn569",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slymanfatn569/moving3.git"
+  }
+}

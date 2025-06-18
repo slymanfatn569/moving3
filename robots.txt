@@ -1,0 +1,30 @@
+# robots.txt لموقع فخر الخليج
+# تاريخ التحديث: 2025-06-17
+
+# السماح لجميع روبوتات محركات البحث بزيارة جميع صفحات الموقع
+User-agent: *
+Allow: /
+
+# تحديد أقصى معدل لزحف روبوتات جوجل لتحسين الأداء
+User-agent: Googlebot
+Crawl-delay: 1
+
+# تحديد أقصى معدل لزحف روبوتات بينج لتحسين الأداء
+User-agent: bingbot
+Crawl-delay: 1
+
+# منع الوصول إلى الصفحات الإدارية أو الخاصة
+Disallow: /admin/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /dev/
+Disallow: /api/
+Disallow: /_next/static/
+
+# السماح بفهرسة صفحات المدونة والخدمات والمناطق
+Allow: /blog/
+Allow: /services/
+Allow: /areas/
+
+# مسار خريطة الموقع XML
+Sitemap: https://slymanfatn569.github.io/moving3/sitemap.xml 

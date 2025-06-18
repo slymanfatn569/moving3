@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Properly Sized Icons</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin: 20px; }
+    canvas { border: 1px solid #ddd; margin: 10px; }
+    button { padding: 10px; margin: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Icon Generator</h1>
+  <p>Click the button to generate a 144x144 icon</p>
+  
+  <canvas id="iconCanvas" width="144" height="144"></canvas>
+  <br>
+  <button onclick="generateIcon(144)">Generate 144x144 Icon</button>
+  <p>Right-click on the canvas and select "Save image as..." to save the icon</p>
+  
+  <script>
+    function generateIcon(size) {
+      const canvas = document.getElementById('iconCanvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      
+      // Background
+      ctx.fillStyle = '#051937';
+      ctx.fillRect(0, 0, size, size);
+      
+      // Create a gradient for the center
+      const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+      gradient.addColorStop(0, '#00C6FB');
+      gradient.addColorStop(1, '#005BEA');
+      
+      // Draw a circle
+      ctx.beginPath();
+      ctx.arc(size/2, size/2, size/2 - 10, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      // Add text
+      ctx.fillStyle = 'white';
+      ctx.font = `bold ${size/4}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('فخر', size/2, size/2 - 10);
+      ctx.fillText('الخليج', size/2, size/2 + 20);
+      
+      // Convert to image
+      const dataUrl = canvas.toDataURL('image/png');
+      
+      // Create a download link
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `icon-${size}x${size}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+</body>
+</html> 
