@@ -22,36 +22,6 @@ const nextConfig = {
   // Compression
   compress: true,
   
-  // PWA Support
-  headers: async () => [
-    {
-      source: '/(.*)',
-      headers: [
-        {
-          key: 'X-Content-Type-Options',
-          value: 'nosniff',
-        },
-        {
-          key: 'X-Frame-Options',
-          value: 'DENY',
-        },
-        {
-          key: 'X-XSS-Protection',
-          value: '1; mode=block',
-        },
-      ],
-    },
-    {
-      source: '/service-worker.js',
-      headers: [
-        {
-          key: 'Cache-Control',
-          value: 'public, max-age=0, must-revalidate',
-        },
-      ],
-    },
-  ],
-  
   // Environment variables
   env: {
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'https://slymanfatn569.github.io/moving3',
@@ -104,17 +74,6 @@ const nextConfig = {
   
   // Trailing slash
   trailingSlash: true,
-  
-  // Redirects
-  async redirects() {
-    return [
-      {
-        source: '/home',
-        destination: '/',
-        permanent: true,
-      },
-    ];
-  },
   
   // Bundle analyzer
   ...(process.env.ANALYZE && {
