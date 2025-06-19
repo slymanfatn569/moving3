@@ -29,9 +29,9 @@ const OptimizedImage = ({
   const basePath = process.env.NODE_ENV === 'production' ? '/moving3' : '';
   
   // Fix image path
-  const imageSrc = src.startsWith('/') ? `${basePath}${src}` : src;
+  const imageSrc = src && src.startsWith('/') ? `${basePath}${src}` : src;
   
-  // Fallback image
+  // Fallback image with correct path
   const fallbackSrc = `${basePath}/images/placeholder.jpg`;
   
   const handleLoad = () => {
@@ -57,7 +57,7 @@ const OptimizedImage = ({
   return (
     <div className={`relative ${className}`}>
       <Image
-        src={imageSrc}
+        src={imageSrc || fallbackSrc}
         alt={alt}
         width={width}
         height={height}

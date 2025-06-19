@@ -8,21 +8,25 @@ const StaticImage = ({
   height,
   style = {},
   loading = 'lazy',
-  onError
+  onError,
+  ...rest
 }) => {
-  // The basePath from next.config.js will be automatically applied by Next.js
-  // to root-relative paths like "/images/foo.jpg".
+  // إضافة basePath للصور في الإنتاج
+  const basePath = process.env.NODE_ENV === 'production' ? '/moving3' : '';
+  
+  // معالجة مسار الصورة
+  const imageSrc = src.startsWith('/') ? `${basePath}${src}` : src;
+  const placeholderSrc = `${basePath}/images/placeholder.jpg`;
 
   // إعداد المعالجة للصورة البديلة في حالة الخطأ
   const handleError = (e) => {
-    // The placeholder path should also be root-relative.
-    e.target.src = `/images/placeholder.jpg`;
+    e.target.src = placeholderSrc;
     if (onError) onError(e);
   };
 
   return (
     <img
-      src={src}
+      src={imageSrc}
       alt={alt}
       className={className}
       width={width}
@@ -30,6 +34,7 @@ const StaticImage = ({
       style={style}
       loading={loading}
       onError={handleError}
+      {...rest}
     />
   );
 };
