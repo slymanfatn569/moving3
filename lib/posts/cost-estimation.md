@@ -1,7 +1,7 @@
 ---
 title: 'دليل تقدير تكلفة نقل العفش 2025: كيفية حساب التكلفة الحقيقية لنقل أثاثك'
 excerpt: 'دليل شامل يساعدك على تقدير تكلفة نقل العفش بدقة، مع تفصيل جميع العوامل المؤثرة في السعر والنصائح لتوفير المال دون التضحية بالجودة.'
-coverImage: '/images/professional_movers_company.jpeg'
+coverImage: '/images/affordable_moving_company.jpeg'
 date: '20 ديسمبر 2024'
 authorId: '2'
 category: 'تقدير التكلفة'

@@ -1,7 +1,7 @@
 ---
 title: 'دليل التغليف الاحترافي للأثاث: تقنيات وأسرار المحترفين لتغليف آمن'
 excerpt: 'تعلم أفضل تقنيات التغليف المتخصصة لحماية أثاثك أثناء النقل، مع نصائح خبراء نقل العفش للحصول على نتائج احترافية.'
-coverImage: '/images/professional_movers_company.jpeg'
+coverImage: '/images/furniture_wrapping_service.jpeg'
 date: '14 ديسمبر 2024'
 authorId: '2'
 category: 'دليل التغليف'

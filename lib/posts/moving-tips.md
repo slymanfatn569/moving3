@@ -1,7 +1,7 @@
 ---
 title: 'نصائح نقل العفش الذهبية: دليل المحترفين لنقل آمن وسلس'
 excerpt: 'اكتشف أهم النصائح والحيل التي يستخدمها محترفو نقل العفش لضمان تجربة نقل ناجحة وخالية من المشاكل، من التخطيط إلى الاستقرار في المنزل الجديد.'
-coverImage: '/images/professional_movers_company.jpeg'
+coverImage: '/images/expert_furniture_movers.jpeg'
 date: '16 ديسمبر 2024'
 authorId: '3'
 category: 'نصائح النقل'

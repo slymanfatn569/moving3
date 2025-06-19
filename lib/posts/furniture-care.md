@@ -1,7 +1,7 @@
 ---
 title: 'دليل العناية بالأثاث أثناء النقل: كيفية حماية أثاثك من التلف والخدوش'
 excerpt: 'تعرف على أفضل الطرق والتقنيات للعناية بأثاثك أثناء عملية النقل، مع نصائح الخبراء للحفاظ على جودة ومظهر أثاثك كالجديد.'
-coverImage: '/images/professional_movers_company.jpeg'
+coverImage: '/images/luxury_furniture_movers.jpeg'
 date: '18 ديسمبر 2024'
 authorId: '1'
 category: 'العناية بالأثاث'
