@@ -9,6 +9,7 @@ import ImageLoader from '../components/ImageLoader'
 import StaticImage from '../components/StaticImage'
 import { useRouter } from 'next/router'
 import OptimizedImage from '../components/OptimizedImage'
+import SEO from '../components/SEO'
 
 // بيانات المناطق للسلايدر
 const allAreas = [
@@ -69,7 +70,7 @@ const AreasSlider = () => {
     <div className="relative py-4 w-full mx-auto">
       <div className="flex items-center justify-between">
         <button 
-          className="bg-primary text-white rounded-full p-2 shadow-md focus:outline-none z-[5] relative"
+          className="bg-primary text-white rounded-full p-3 shadow-lg hover:bg-primary-dark transition-all duration-300 focus:outline-none z-[5] relative transform hover:scale-110"
           onClick={slideRight}
           aria-label="السابق"
         >
@@ -85,16 +86,16 @@ const AreasSlider = () => {
               key={`${area.slug}-${index}`}
               passHref
             >
-              <a className="bg-white shadow-md rounded-lg py-3 px-4 min-w-[100px] mx-1 text-center hover:bg-primary hover:text-white transition-colors flex-shrink-0">
-                <span className="font-bold block">{area.name}</span>
-                <span className="text-sm text-gray-500">{area.city}</span>
+              <a className="bg-white shadow-lg rounded-xl py-4 px-6 min-w-[120px] mx-1 text-center hover:bg-primary hover:text-white transition-all duration-300 flex-shrink-0 transform hover:scale-105">
+                <span className="font-bold block text-lg">{area.name}</span>
+                <span className="text-sm text-gray-500 hover:text-white/80">{area.city}</span>
               </a>
             </Link>
           ))}
         </div>
         
         <button 
-          className="bg-primary text-white rounded-full p-2 shadow-md focus:outline-none z-[5] relative"
+          className="bg-primary text-white rounded-full p-3 shadow-lg hover:bg-primary-dark transition-all duration-300 focus:outline-none z-[5] relative transform hover:scale-110"
           onClick={slideLeft}
           aria-label="التالي"
         >
@@ -107,60 +108,177 @@ const AreasSlider = () => {
   );
 };
 
-// Determine basePath for images
-const getBasePath = () => {
-  // For GitHub Pages we need to prepend the basePath
-  if (typeof window !== 'undefined') {
-    // Check if we're on GitHub Pages
-    if (window.location.hostname.includes('github.io')) {
-      return '/moving3';
+// مكون الأرقام والإحصائيات
+const StatsSection = () => {
+  const [counters, setCounters] = useState({
+    clients: 0,
+    moves: 0,
+    experience: 0,
+    cities: 0
+  });
+
+  useEffect(() => {
+    const targets = {
+      clients: 2500,
+      moves: 15000,
+      experience: 15,
+      cities: 50
+    };
+
+    const duration = 2000; // مدة العد بالميللي ثانية
+    const steps = 100;
+    const stepDuration = duration / steps;
+
+    Object.keys(targets).forEach(key => {
+      const target = targets[key];
+      const increment = target / steps;
+      let current = 0;
+      let step = 0;
+
+      const timer = setInterval(() => {
+        step++;
+        current = Math.min(Math.ceil(increment * step), target);
+        setCounters(prev => ({ ...prev, [key]: current }));
+
+        if (step >= steps) {
+          clearInterval(timer);
+        }
+      }, stepDuration);
+    });
+  }, []);
+
+  return (
+    <section className="py-20 bg-gradient-to-r from-primary to-accent text-white">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4">أرقامنا تتحدث عنا</h2>
+          <p className="text-xl text-white/90">سنوات من الخبرة والثقة في خدمة عملائنا الكرام</p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="text-center">
+            <div className="text-5xl font-bold mb-2">{counters.clients.toLocaleString()}+</div>
+            <div className="text-lg text-white/90">عميل راضي</div>
+          </div>
+          <div className="text-center">
+            <div className="text-5xl font-bold mb-2">{counters.moves.toLocaleString()}+</div>
+            <div className="text-lg text-white/90">عملية نقل</div>
+          </div>
+          <div className="text-center">
+            <div className="text-5xl font-bold mb-2">{counters.experience}+</div>
+            <div className="text-lg text-white/90">سنة خبرة</div>
+          </div>
+          <div className="text-center">
+            <div className="text-5xl font-bold mb-2">{counters.cities}+</div>
+            <div className="text-lg text-white/90">مدينة نخدمها</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// مكون العملية خطوة بخطوة
+const ProcessSection = () => {
+  const steps = [
+    {
+      number: 1,
+      title: "طلب الخدمة",
+      description: "اتصل بنا أو احجز عبر الموقع للحصول على استشارة مجانية وتقدير للتكلفة",
+      icon: "📞"
+    },
+    {
+      number: 2,
+      title: "المعاينة والتقييم",
+      description: "يقوم فريقنا بزيارة الموقع لتقييم الأثاث ووضع خطة النقل المناسبة",
+      icon: "🔍"
+    },
+    {
+      number: 3,
+      title: "التغليف الاحترافي",
+      description: "نقوم بتغليف جميع القطع باستخدام أفضل مواد التغليف لضمان سلامتها",
+      icon: "📦"
+    },
+    {
+      number: 4,
+      title: "النقل الآمن",
+      description: "ننقل أثاثك بأمان إلى الموقع الجديد باستخدام شاحناتنا المجهزة",
+      icon: "🚛"
+    },
+    {
+      number: 5,
+      title: "التركيب والترتيب",
+      description: "نقوم بفك التغليف وتركيب الأثاث وترتيبه في الأماكن المطلوبة",
+      icon: "🔧"
     }
-  }
-  return '';
+  ];
+
+  return (
+    <section className="py-20 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold mb-4 text-gray-800">كيف تتم عملية النقل؟</h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            نتبع منهجية واضحة ومنظمة لضمان نقل أثاثك بأقصى درجات الأمان والكفاءة
+          </p>
+        </div>
+        <div className="relative">
+          <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-primary/20 transform -translate-y-1/2"></div>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+            {steps.map((step, index) => (
+              <div key={step.number} className="relative">
+                <div className="bg-white rounded-xl p-6 shadow-lg text-center relative z-10 hover:shadow-xl transition-shadow duration-300">
+                  <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                    {step.number}
+                  </div>
+                  <div className="text-4xl mb-4">{step.icon}</div>
+                  <h3 className="text-xl font-bold mb-3 text-gray-800">{step.title}</h3>
+                  <p className="text-gray-600 text-sm">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default function Home({ featuredPosts }) {
   const router = useRouter();
-  const basePath = getBasePath();
   
   const services = [
     { 
       id: 1, 
       title: 'نقل الشركات والمكاتب', 
       description: 'حلول نقل متكاملة للشركات والمؤسسات مع ضمان الاستمرارية في العمل وتقليل فترة التوقف', 
-      image: '/images/services/corporate_moving.jpg',
-      link: '/services/corporate'
+      image: '/images/professional_movers_company.jpeg',
+      link: '/services/corporate',
+      icon: '🏢'
     },
     { 
       id: 2, 
       title: 'خدمات التغليف المتخصصة', 
       description: 'تغليف احترافي وآمن للأثاث والمقتنيات الثمينة باستخدام أفضل مواد التغليف', 
-      image: '/images/services/packing_service.jpg',
-      link: '/services/packing'
+      image: '/images/commercial_moving_service.jpeg',
+      link: '/services/packing',
+      icon: '📦'
     },
     { 
       id: 3, 
       title: 'فك وتركيب الأثاث', 
       description: 'خدمات فك وتركيب احترافية للأثاث المنزلي والمكتبي مع الحفاظ على سلامته', 
-      image: '/images/services/furniture_assembly.jpg',
-      link: '/services/assembly'
+      image: '/images/experienced_movers_team.jpeg',
+      link: '/services/assembly',
+      icon: '🔧'
     },
     { 
       id: 4, 
       title: 'التخزين الآمن', 
       description: 'خدمات تخزين آمنة للأثاث والمقتنيات في مستودعات مجهزة بأحدث أنظمة الحماية والرقابة', 
-      image: '/images/services/storage_service.jpg',
-      link: '/services/storage'
+      image: '/images/furniture_shipping_service.jpeg',
+      link: '/services/storage',
+      icon: '🏪'
     },
-  ];
-  
-  const areas = [
-    { name: 'الرياض', count: 24, image: '/images/areas/riyadh.jpg' },
-    { name: 'جدة', count: 18, image: '/images/areas/jeddah.jpg' },
-    { name: 'الدمام', count: 15, image: '/images/areas/dammam.jpg' },
-    { name: 'مكة المكرمة', count: 14, image: '/images/areas/makkah.jpg' },
-    { name: 'المدينة المنورة', count: 12, image: '/images/areas/madinah.jpg' },
-    { name: 'الخبر', count: 10, image: '/images/areas/khobar.jpg' },
   ];
   
   const whyChooseUs = [
@@ -168,126 +286,139 @@ export default function Home({ featuredPosts }) {
       id: 1, 
       title: 'فريق محترف',
       description: 'فريقنا مدرب على أعلى مستوى للتعامل مع جميع أنواع الأثاث والمقتنيات بعناية فائقة',
-      icon: '/images/icons/team.svg'
+      icon: '👥',
+      color: 'bg-blue-500'
     },
     { 
       id: 2, 
       title: 'معدات حديثة',
       description: 'نستخدم أحدث المعدات والتقنيات لضمان سلامة وكفاءة عملية النقل من البداية إلى النهاية',
-      icon: '/images/icons/equipment.svg'
+      icon: '⚙️',
+      color: 'bg-green-500'
     },
     { 
       id: 3, 
       title: 'أسطول نقل متكامل',
       description: 'نمتلك أسطول نقل متكامل من الشاحنات المجهزة خصيصًا لنقل الأثاث والعفش بأمان',
-      icon: '/images/icons/trucks.svg'
+      icon: '🚛',
+      color: 'bg-yellow-500'
     },
     { 
       id: 4, 
       title: 'ضمان على الخدمة',
       description: 'نقدم ضمانًا على جميع خدماتنا لمنحك راحة البال والثقة الكاملة في اختيارك لنا',
-      icon: '/images/icons/guarantee.svg'
+      icon: '🛡️',
+      color: 'bg-purple-500'
     },
     { 
       id: 5, 
       title: 'أسعار تنافسية',
       description: 'نقدم أسعارًا تنافسية مع الحفاظ على أعلى معايير الجودة والاحترافية في تقديم الخدمة',
-      icon: '/images/icons/price.svg'
+      icon: '💰',
+      color: 'bg-red-500'
     },
     { 
       id: 6, 
       title: 'خدمة على مدار الساعة',
       description: 'فريق خدمة العملاء متاح على مدار الساعة للإجابة على استفساراتك وتلبية احتياجاتك',
-      icon: '/images/icons/support.svg'
+      icon: '🕐',
+      color: 'bg-indigo-500'
     },
   ];
 
   return (
-    <Layout title="فخر الخليج - خدمات نقل العفش والأثاث المتخصصة"
-      description="مزود رائد لخدمات نقل العفش والأثاث في جميع أنحاء المملكة العربية السعودية، نقدم خدمات احترافية للأفراد والشركات والمؤسسات."
-      keywords="نقل عفش، نقل أثاث، المملكة العربية السعودية، خدمات التخزين، فك وتركيب الأثاث">
+    <Layout>
+      <SEO 
+        title="خدمات نقل العفش والأثاث الاحترافية في المملكة العربية السعودية"
+        description="شركة رائدة في خدمات نقل العفش والأثاث. نقدم حلول نقل شاملة وآمنة للمنازل والمكاتب في جميع أنحاء المملكة مع فريق محترف وأسعار تنافسية."
+        keywords="نقل عفش، نقل أثاث، شركة نقل، نقل منازل، نقل مكاتب، المملكة العربية السعودية، الرياض، جدة، الدمام"
+      />
+      
       <Head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "name": "فخر الخليج",
-              "url": "https://fakhrkhaleej.com",
-              "logo": "https://fakhrkhaleej.com/logo.png",
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+966-123-456-789",
-                "contactType": "customer service"
-              },
-              "sameAs": [
-                "https://facebook.com/fakhrkhaleej",
-                "https://twitter.com/fakhrkhaleej",
-                "https://linkedin.com/company/fakhrkhaleej"
-              ]
-            })
-          }}
-        />
-        
-        {/* Ajout de style pour masquer la barre de défilement */}
-        <style jsx global>{`
-          .no-scrollbar {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-          }
+        <style jsx>{`
           .no-scrollbar::-webkit-scrollbar {
             display: none;  /* Chrome, Safari, Opera */
+          }
+          .no-scrollbar {
+            -ms-overflow-style: none;  /* Internet Explorer, Edge */
+            scrollbar-width: none;  /* Firefox */
+          }
+          .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+          .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
           }
         `}</style>
       </Head>
 
       {/* Hero Section */}
-      <section className="relative">
-        <div className="relative h-[600px] w-full">
+      <section className="relative overflow-hidden">
+        <div className="relative h-[700px] w-full">
           <ImageLoader
             src="/images/professional_movers_company.jpeg"
-            alt="فخر الخليج - خدمات نقل العفش والأثاث المتخصصة"
+            alt="خدمات نقل العفش والأثاث المتخصصة"
             width={1920}
             height={1080}
             priority
             className="w-full h-full brightness-75"
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-center">
-              خدمات نقل العفش والأثاث المتخصصة في المملكة العربية السعودية
-            </h1>
-            <p className="text-xl max-w-3xl text-center mb-8">
-              حلول نقل عفش متكاملة للأفراد والشركات والمؤسسات في جميع أنحاء المملكة.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/services" passHref>
-                <a className="btn btn-accent">
-                  استكشاف خدماتنا
-                </a>
-              </Link>
-              <Link href="/contact" passHref>
-                <a className="btn btn-secondary">
-                  طلب استشارة
-                </a>
-              </Link>
+            <div className="max-w-6xl mx-auto text-center">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
+                خدمات نقل العفش والأثاث
+                <span className="block text-accent">المتخصصة</span>
+              </h1>
+              <p className="text-xl md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed">
+                حلول نقل عفش متكاملة وموثوقة للأفراد والشركات والمؤسسات 
+                في جميع أنحاء المملكة العربية السعودية
+              </p>
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                <Link href="/services" passHref>
+                  <a className="bg-primary hover:bg-primary-dark text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    🔍 استكشاف خدماتنا
+                  </a>
+                </Link>
+                <Link href="/contact" passHref>
+                  <a className="bg-accent hover:bg-accent-dark text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    📞 طلب استشارة مجانية
+                  </a>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Areas Slider Section - UPDATED */}
-      <section className="py-10 bg-gray-100 relative z-[1]">
+      {/* الأرقام والإحصائيات */}
+      <StatsSection />
+
+      {/* Areas Slider Section */}
+      <section className="py-16 bg-gray-100 relative z-[1]">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4">مناطق خدماتنا</h2>
-            <p className="text-gray-600">نقدم خدماتنا في مختلف مناطق المملكة العربية السعودية</p>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-6 text-gray-800">مناطق خدماتنا</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              نقدم خدماتنا المتميزة في مختلف مناطق المملكة العربية السعودية 
+              مع تغطية شاملة للمدن الرئيسية والأحياء المختلفة
+            </p>
           </div>
           <AreasSlider />
-          <div className="text-center mt-6">
+          <div className="text-center mt-8">
             <Link href="/areas" passHref>
-              <a className="text-primary font-bold hover:underline">
-                عرض جميع المناطق
+              <a className="inline-flex items-center text-primary font-bold hover:text-primary-dark transition-colors text-lg">
+                <span className="ml-2">🗺️</span>
+                عرض جميع المناطق والمدن
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
               </a>
             </Link>
           </div>
@@ -295,295 +426,137 @@ export default function Home({ featuredPosts }) {
       </section>
 
       {/* Services Section */}
-      <section className="py-16 bg-white">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">خدماتنا المتخصصة</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              حلول شاملة لنقل العفش مصممة خصيصًا لتلبية احتياجات كل عميل
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">خدماتنا المتخصصة</h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              نقدم مجموعة شاملة من الخدمات المصممة خصيصًا لتلبية احتياجاتك في نقل العفش والأثاث
+              مع ضمان أعلى معايير الجودة والأمان
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* نقل المكاتب والشركات */}
-            <div className="card hover:shadow-lg transition-shadow">
-              <div className="relative h-48 mb-4 rounded overflow-hidden">
-                <ImageLoader 
-                  src="/images/professional_movers_company.jpeg" 
-                  alt="نقل المكاتب والشركات" 
-                  width={800}
-                  height={400}
-                  className="w-full h-full"
-                />
+            {services.map((service) => (
+              <div key={service.id} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100">
+                <div className="relative h-56 overflow-hidden">
+                  <ImageLoader 
+                    src={service.image} 
+                    alt={service.title} 
+                    width={400}
+                    height={300}
+                    className="w-full h-full group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute top-4 right-4 w-12 h-12 bg-white/90 rounded-full flex items-center justify-center text-2xl">
+                    {service.icon}
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-primary transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    {service.description}
+                  </p>
+                  <Link href={service.link} passHref>
+                    <a className="inline-flex items-center text-primary font-bold hover:text-primary-dark transition-colors">
+                      اقرأ المزيد
+                      <svg className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </a>
+                  </Link>
+                </div>
               </div>
-              <h3 className="text-2xl font-bold mb-2">نقل المكاتب والشركات</h3>
-              <p className="text-gray-600 mb-4">
-                خدمات نقل احترافية للشركات والمكاتب مع التخطيط الدقيق لضمان استمرارية العمل دون انقطاع.
-              </p>
-              <Link href="/services/corporate" passHref>
-                <a className="text-primary font-medium">
-                  اقرأ المزيد ←
-                </a>
-              </Link>
-            </div>
-
-            {/* خدمات التنظيف المتخصصة */}
-            <div className="card hover:shadow-lg transition-shadow">
-              <div className="relative h-48 mb-4 rounded overflow-hidden">
-                <ImageLoader 
-                  src="/images/furniture_shipping_service.jpeg" 
-                  alt="خدمات التنظيف المتخصصة" 
-                  width={800}
-                  height={400}
-                  className="w-full h-full"
-                />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">خدمات التنظيف المتخصصة</h3>
-              <p className="text-gray-600 mb-4">
-                خدمات تنظيف احترافية شاملة لجميع أنواع المساحات والمباني مع استخدام أحدث التقنيات ومواد التنظيف الآمنة.
-              </p>
-              <Link href="/services/cleaning" passHref>
-                <a className="text-primary font-medium">
-                  اقرأ المزيد ←
-                </a>
-              </Link>
-            </div>
-
-            {/* خدمات التخزين */}
-            <div className="card hover:shadow-lg transition-shadow">
-              <div className="relative h-48 mb-4 rounded overflow-hidden">
-                <ImageLoader 
-                  src="/images/commercial_moving_service.jpeg" 
-                  alt="خدمات التخزين" 
-                  width={800}
-                  height={400}
-                  className="w-full h-full"
-                />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">خدمات التخزين</h3>
-              <p className="text-gray-600 mb-4">
-                حلول تخزين آمنة ومكيفة لجميع أنواع الأثاث والمعدات لفترات قصيرة وطويلة المدى مع ضمان السلامة والحماية.
-              </p>
-              <Link href="/services/storage" passHref>
-                <a className="text-primary font-medium">
-                  اقرأ المزيد ←
-                </a>
-              </Link>
-            </div>
-            
-            {/* فك وتركيب الأثاث */}
-            <div className="card hover:shadow-lg transition-shadow">
-              <div className="relative h-48 mb-4 rounded overflow-hidden">
-                <ImageLoader 
-                  src="/images/experienced_movers_team.jpeg" 
-                  alt="فك وتركيب الأثاث" 
-                  width={800}
-                  height={400}
-                  className="w-full h-full"
-                />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">فك وتركيب الأثاث</h3>
-              <p className="text-gray-600 mb-4">
-                خدمات فك وتركيب احترافية لجميع أنواع الأثاث المنزلي والمكتبي بأيدي فنيين متخصصين يضمنون سلامة كل قطعة.
-              </p>
-              <Link href="/services/assembly" passHref>
-                <a className="text-primary font-medium">
-                  اقرأ المزيد ←
-                </a>
-              </Link>
-            </div>
+            ))}
           </div>
 
           <div className="text-center mt-12">
             <Link href="/services" passHref>
-              <a className="btn btn-primary">
-                جميع خدماتنا
+              <a className="bg-primary hover:bg-primary-dark text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                🚛 جميع خدماتنا
               </a>
             </Link>
           </div>
         </div>
       </section>
       
-      {/* Why Choose Us Section - NEW */}
-      <section className="py-16 bg-gray-50">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">لماذا تختار فخر الخليج؟</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              نقدم خدمات نقل عفش متميزة بمعايير عالمية وخبرة محلية
+      {/* عملية النقل خطوة بخطوة */}
+      <ProcessSection />
+
+      {/* Why Choose Us Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">لماذا تختارنا؟</h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              نتميز بخدمات نقل عفش احترافية تجمع بين الخبرة العريقة والتقنيات الحديثة
+              لضمان تجربة نقل مثالية لكل عميل
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-md text-center">
-              <div className="text-primary text-4xl mb-4 mx-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {whyChooseUs.map((feature) => (
+              <div key={feature.id} className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 text-center">
+                <div className={`w-20 h-20 ${feature.color} rounded-2xl flex items-center justify-center text-3xl text-white mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  {feature.icon}
+                </div>
+                <h3 className="text-2xl font-bold mb-4 text-gray-800 group-hover:text-primary transition-colors">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
-              <h3 className="text-xl font-bold mb-4">خبرة وموثوقية</h3>
-              <p className="text-gray-600">
-                أكثر من 15 عامًا من الخبرة في مجال نقل العفش والأثاث في مختلف مناطق المملكة مع آلاف العملاء الراضين.
-              </p>
-            </div>
-            
-            <div className="bg-white p-8 rounded-lg shadow-md text-center">
-              <div className="text-primary text-4xl mb-4 mx-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold mb-4">سرعة وكفاءة</h3>
-              <p className="text-gray-600">
-                فريق محترف مدرب على أعلى مستوى يضمن تنفيذ عمليات النقل بسرعة وكفاءة مع الحفاظ على جودة الخدمة.
-              </p>
-            </div>
-            
-            <div className="bg-white p-8 rounded-lg shadow-md text-center">
-              <div className="text-primary text-4xl mb-4 mx-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold mb-4">دعم متكامل</h3>
-              <p className="text-gray-600">
-                خدمة عملاء متاحة على مدار الساعة لتلبية احتياجاتك والإجابة على استفساراتك قبل وأثناء وبعد عملية النقل.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Blog Posts - UPDATED with more posts */}
-      <section className="py-16 bg-white">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">مدونتنا</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              نصائح وإرشادات مفيدة في مجال نقل العفش والأثاث
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredPosts.map(post => (
-              <BlogCard key={post.id} post={post} />
             ))}
           </div>
-
-          <div className="text-center mb-8 mt-12">
-            <Link href="/blog" passHref>
-              <a className="btn btn-primary">عرض جميع المقالات</a>
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-16 bg-primary text-white">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">آراء عملائنا</h2>
-            <p className="text-xl opacity-80 max-w-3xl mx-auto">
-              استمع إلى ما يقوله عملاؤنا عن خدمات نقل العفش لدينا
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
-              <div className="flex items-center mb-4">
-                <div className="mr-4">
-                  <svg className="w-10 h-10 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-lg font-medium">محمد العتيبي</p>
-                  <p className="opacity-70">الرياض</p>
-                </div>
-              </div>
-              <p className="italic">
-                "خدمة ممتازة من فريق محترف. قاموا بنقل أثاث منزلي بعناية فائقة ودون أي أضرار. أنصح بشدة بالتعامل معهم."
+      {/* Blog Section */}
+      {featuredPosts && featuredPosts.length > 0 && (
+        <section className="py-20 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">آخر مقالات المدونة</h2>
+              <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                اكتشف أحدث النصائح والإرشادات من خبرائنا في مجال نقل العفش والأثاث
               </p>
             </div>
-
-            <div className="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
-              <div className="flex items-center mb-4">
-                <div className="mr-4">
-                  <svg className="w-10 h-10 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-lg font-medium">سارة الزهراني</p>
-                  <p className="opacity-70">جدة</p>
-                </div>
-              </div>
-              <p className="italic">
-                "تعاملت مع شركة فخر الخليج لنقل أثاث شركتنا، وكانت التجربة ممتازة من حيث الدقة والالتزام بالوقت والمحافظة على الأثاث."
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredPosts.slice(0, 6).map(post => (
+                <BlogCard key={post.id} post={post} />
+              ))}
             </div>
-            
-            <div className="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
-              <div className="flex items-center mb-4">
-                <div className="mr-4">
-                  <svg className="w-10 h-10 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-lg font-medium">أحمد القحطاني</p>
-                  <p className="opacity-70">الدمام</p>
-                </div>
-              </div>
-              <p className="italic">
-                "أفضل شركة نقل عفش تعاملت معها. الفريق محترف والأسعار منافسة والخدمة ممتازة. سأتعامل معهم مرة أخرى بالتأكيد."
-              </p>
+            <div className="text-center mt-12">
+              <Link href="/blog" passHref>
+                <a className="bg-accent hover:bg-accent-dark text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  📚 جميع المقالات
+                </a>
+              </Link>
             </div>
           </div>
-        </div>
-      </section>
-      
-      {/* Stats Section - NEW */}
-      <section className="py-16 bg-white">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">فخر الخليج بالأرقام</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              إحصائيات تعكس حجم خبرتنا وثقة عملائنا
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <div className="text-primary text-4xl font-bold mb-2">+5000</div>
-              <p className="text-gray-600">عميل راضٍ</p>
-            </div>
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <div className="text-primary text-4xl font-bold mb-2">+15</div>
-              <p className="text-gray-600">سنة خبرة</p>
-            </div>
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <div className="text-primary text-4xl font-bold mb-2">+25</div>
-              <p className="text-gray-600">شاحنة مجهزة</p>
-            </div>
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <div className="text-primary text-4xl font-bold mb-2">+100</div>
-              <p className="text-gray-600">فني محترف</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* CTA Section */}
-      <section className="py-16 bg-gray-100">
-        <div className="container">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">هل أنت مستعد لتجربة خدمات نقل عفش متميزة؟</h2>
-            <p className="text-xl text-gray-600 mb-8">
-              تواصل مع فريقنا للحصول على استشارة مجانية واكتشف كيف يمكن لخدمات نقل العفش المتخصصة أن تلبي احتياجاتك بطريقة احترافية.
-            </p>
+      <section className="py-20 bg-gradient-to-r from-primary to-accent text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">هل أنت مستعد للانتقال؟</h2>
+          <p className="text-xl mb-10 max-w-3xl mx-auto leading-relaxed">
+            احصل على استشارة مجانية وعرض سعر مخصص لاحتياجاتك في النقل. 
+            فريقنا المختص جاهز لمساعدتك في كل خطوة
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link href="/contact" passHref>
-              <a className="btn btn-primary btn-lg">احصل على عرض سعر مجاني</a>
+              <a className="bg-white text-primary hover:bg-gray-100 font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                📞 احصل على عرض سعر مجاني
+              </a>
+            </Link>
+            <Link href="/testimonials" passHref>
+              <a className="border-2 border-white text-white hover:bg-white hover:text-primary font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105">
+                💬 آراء عملائنا
+              </a>
             </Link>
           </div>
         </div>
@@ -593,24 +566,12 @@ export default function Home({ featuredPosts }) {
 }
 
 export async function getStaticProps() {
-  try {
-    const allPosts = getAllPosts()
-    // Make sure allPosts is an array before trying to slice it
-    const featuredPosts = Array.isArray(allPosts) && allPosts.length > 0 
-      ? allPosts.slice(0, 4) // Get latest 4 posts
-      : []
-    
-    return {
-      props: {
-        featuredPosts,
-      },
-    }
-  } catch (error) {
-    console.error('Error fetching blog posts:', error)
-    return {
-      props: {
-        featuredPosts: [],
-      },
-    }
+  const allPosts = getAllPosts()
+  const featuredPosts = allPosts.filter(post => post.featured).slice(0, 6)
+  
+  return {
+    props: {
+      featuredPosts
+    },
   }
 } 

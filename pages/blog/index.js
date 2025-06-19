@@ -4,6 +4,7 @@ import Head from 'next/head'
 import BlogCard from '../../components/BlogCard'
 import { getAllPosts, getAllCategories } from '../../lib/blog'
 import Link from 'next/link'
+import SEO from '../../components/SEO'
 
 export default function BlogIndex({ allPosts, allCategories }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -14,11 +15,13 @@ export default function BlogIndex({ allPosts, allCategories }) {
     : allPosts.filter(post => post.category === selectedCategory);
 
   return (
-    <Layout
-      title="المدونة | فخر الخليج - خبراء الأزياء الرسمية المهنية"
-      description="استكشف آخر الرؤى والاتجاهات في عالم الأزياء الرسمية المهنية في المملكة العربية السعودية من الخبراء في فخر الخليج."
-      keywords="مدونة الزي الرسمي، مقالات الزي المهني، اتجاهات الزي الرسمي، صناعة الملابس السعودية، نصائح الزي الرسمي"
-    >
+    <Layout>
+      <SEO 
+        title="مدونة نقل العفش"
+        description="استكشف آخر النصائح والخبرات في عالم نقل العفش والأثاث. دليلك الشامل لنقل آمن وفعال في المملكة العربية السعودية."
+        keywords="مدونة نقل العفش، نصائح النقل، دليل نقل الأثاث، خبراء النقل، نقل آمن، تغليف الأثاث"
+      />
+      
       <Head>
         <script
           type="application/ld+json"
@@ -26,67 +29,104 @@ export default function BlogIndex({ allPosts, allCategories }) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Blog",
-              "headline": "مدونة فخر الخليج للأزياء الرسمية المهنية",
-              "description": "آخر المقالات والرؤى حول صناعة الأزياء الرسمية المهنية في المملكة العربية السعودية",
+              "headline": "مدونة نقل العفش - خبراء النقل في المملكة العربية السعودية",
+              "description": "آخر المقالات والنصائح حول خدمات نقل العفش والأثاث في المملكة العربية السعودية",
               "publisher": {
                 "@type": "Organization",
-                "name": "فخر الخليج",
+                "@id": "https://slymanfatn569.github.io/moving3/#organization",
+                "name": "شركة نقل العفش",
                 "logo": {
                   "@type": "ImageObject",
-                  "url": "https://fakhrkhaleej.com/logo.png"
+                  "url": "https://slymanfatn569.github.io/moving3/icons/icon-192x192.png"
                 }
+              },
+              "url": "https://slymanfatn569.github.io/moving3/blog/",
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://slymanfatn569.github.io/moving3/blog/"
               }
             })
           }}
         />
       </Head>
 
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">مدونة فخر الخليج</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            آخر الرؤى والاتجاهات في عالم الأزياء الرسمية المهنية في المملكة العربية السعودية
+      <div className="container mx-auto px-4 py-12">
+        {/* Hero Section */}
+        <div className="text-center mb-16 bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
+            مدونة نقل العفش
+          </h1>
+          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+            دليلك الشامل لنقل آمن وفعال. نصائح من الخبراء، أحدث الطرق في التغليف والنقل، 
+            وكل ما تحتاج معرفته لضمان سلامة أثاثك أثناء الانتقال
           </p>
         </div>
 
-        {/* فلتر الفئات - يظهر فقط إذا كان هناك فئات */}
+        {/* إحصائيات سريعة */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+          <div className="bg-white rounded-lg shadow-md p-6 text-center">
+            <div className="text-3xl font-bold text-primary mb-2">{allPosts.length}</div>
+            <div className="text-gray-600">مقال</div>
+          </div>
+          <div className="bg-white rounded-lg shadow-md p-6 text-center">
+            <div className="text-3xl font-bold text-accent mb-2">{allCategories.length}</div>
+            <div className="text-gray-600">فئة</div>
+          </div>
+          <div className="bg-white rounded-lg shadow-md p-6 text-center">
+            <div className="text-3xl font-bold text-primary mb-2">15+</div>
+            <div className="text-gray-600">خبير</div>
+          </div>
+          <div className="bg-white rounded-lg shadow-md p-6 text-center">
+            <div className="text-3xl font-bold text-accent mb-2">1000+</div>
+            <div className="text-gray-600">قارئ</div>
+          </div>
+        </div>
+
+        {/* فلتر الفئات */}
         {allCategories.length > 0 && (
-          <div className="flex flex-wrap justify-center mb-12 gap-2">
-            <button
-              onClick={() => setSelectedCategory('all')}
-              className={`px-4 py-2 rounded-full font-medium transition ${
-                selectedCategory === 'all'
-                  ? 'bg-primary text-white'
-                  : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-              }`}
-            >
-              الكل
-            </button>
-            {allCategories.map(category => (
+          <div className="bg-white rounded-lg shadow-md p-6 mb-12">
+            <h2 className="text-xl font-bold mb-4 text-center">تصفح حسب الفئة</h2>
+            <div className="flex flex-wrap justify-center gap-3">
               <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full font-medium transition ${
-                  selectedCategory === category
-                    ? 'bg-primary text-white'
-                    : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                onClick={() => setSelectedCategory('all')}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  selectedCategory === 'all'
+                    ? 'bg-primary text-white shadow-lg transform scale-105'
+                    : 'bg-gray-100 text-gray-800 hover:bg-gray-200 hover:shadow-md'
                 }`}
               >
-                {category}
+                📚 جميع المقالات ({allPosts.length})
               </button>
-            ))}
+              {allCategories.map(category => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                    selectedCategory === category
+                      ? 'bg-primary text-white shadow-lg transform scale-105'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200 hover:shadow-md'
+                  }`}
+                >
+                  🏷️ {category} ({allPosts.filter(post => post.category === category).length})
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
-        {/* المقالات المميزة - يظهر فقط إذا كان هناك مقالات مميزة */}
+        {/* المقالات المميزة */}
         {selectedCategory === 'all' && allPosts.some(post => post.featured) && (
           <div className="mb-16">
-            <h2 className="text-2xl font-bold mb-8">المقالات المميزة</h2>
+            <div className="flex items-center mb-8">
+              <span className="text-3xl mr-3">⭐</span>
+              <h2 className="text-3xl font-bold text-gray-800">المقالات المميزة</h2>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {allPosts
                 .filter(post => post.featured)
+                .slice(0, 6)
                 .map(post => (
-                  <BlogCard key={post.id} post={post} />
+                  <BlogCard key={post.id} post={post} featured={true} />
                 ))}
             </div>
           </div>
@@ -94,9 +134,12 @@ export default function BlogIndex({ allPosts, allCategories }) {
 
         {/* جميع المقالات */}
         <div>
-          <h2 className="text-2xl font-bold mb-8">
-            {selectedCategory === 'all' ? 'جميع المقالات' : `مقالات ${selectedCategory}`}
-          </h2>
+          <div className="flex items-center mb-8">
+            <span className="text-3xl mr-3">📖</span>
+            <h2 className="text-3xl font-bold text-gray-800">
+              {selectedCategory === 'all' ? 'أحدث المقالات' : `مقالات ${selectedCategory}`}
+            </h2>
+          </div>
           
           {filteredPosts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -107,41 +150,86 @@ export default function BlogIndex({ allPosts, allCategories }) {
                 ))}
             </div>
           ) : (
-            <div className="text-center py-16 bg-gray-50 rounded-lg">
-              <h3 className="text-xl font-bold mb-3">لا توجد مقالات متاحة حاليًا</h3>
-              <p className="text-gray-600 mb-4">
-                نعمل على إضافة محتوى جديد. يرجى العودة قريبًا للاطلاع على آخر المقالات.
+            <div className="text-center py-16 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl">
+              <div className="text-6xl mb-6">📝</div>
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">لا توجد مقالات متاحة حاليًا</h3>
+              <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                نعمل على إضافة محتوى مفيد حول نقل العفش والأثاث. 
+                يرجى العودة قريبًا للاطلاع على آخر النصائح والإرشادات.
               </p>
-              <Link href="/" passHref>
-                <a className="inline-block bg-primary hover:bg-primary-dark text-white font-bold py-2 px-6 rounded-lg transition-colors">
-                  العودة للصفحة الرئيسية
-                </a>
-              </Link>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/" passHref>
+                  <a className="inline-block bg-primary hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    🏠 الصفحة الرئيسية
+                  </a>
+                </Link>
+                <Link href="/services" passHref>
+                  <a className="inline-block bg-accent hover:bg-accent-dark text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    🚛 خدماتنا
+                  </a>
+                </Link>
+              </div>
             </div>
           )}
         </div>
 
         {/* النشرة البريدية */}
-        <div className="bg-gray-50 rounded-lg p-8 my-16">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl font-bold mb-3">اشترك في نشرتنا البريدية</h2>
-            <p className="text-gray-600 mb-6">
-              احصل على آخر المقالات والنصائح حول الأزياء الرسمية المهنية مباشرة في صندوق الوارد الخاص بك
+        <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 my-16 text-white">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="text-5xl mb-6">📧</div>
+            <h2 className="text-3xl font-bold mb-4">اشترك في نشرتنا البريدية</h2>
+            <p className="text-white/90 mb-8 text-lg">
+              احصل على أحدث النصائح والدلائل حول نقل العفش والأثاث، 
+              بالإضافة إلى العروض الحصرية مباشرة في صندوق الوارد الخاص بك
             </p>
-            <form className="flex flex-col sm:flex-row gap-4">
+            <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
                 type="email"
                 placeholder="بريدك الإلكتروني"
-                className="flex-grow px-4 py-3 rounded-md border focus:outline-none focus:ring-2 focus:ring-primary"
+                className="flex-grow px-6 py-4 rounded-lg border-0 focus:outline-none focus:ring-4 focus:ring-white/30 text-gray-800"
                 required
               />
               <button 
                 type="submit" 
-                className="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-md transition-colors font-medium"
+                className="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-lg transition-colors font-bold"
               >
-                اشترك
+                اشترك الآن
               </button>
             </form>
+            <p className="text-white/80 text-sm mt-4">
+              نحترم خصوصيتك ولن نشارك بياناتك مع أطراف ثالثة
+            </p>
+          </div>
+        </div>
+
+        {/* روابط مفيدة */}
+        <div className="bg-white rounded-xl shadow-md p-8">
+          <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">مواضيع قد تهمك</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Link href="/blog/packing-guide" passHref>
+              <a className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <span className="text-2xl mr-3">📦</span>
+                <span className="font-medium">دليل التغليف</span>
+              </a>
+            </Link>
+            <Link href="/blog/moving-tips" passHref>
+              <a className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <span className="text-2xl mr-3">💡</span>
+                <span className="font-medium">نصائح النقل</span>
+              </a>
+            </Link>
+            <Link href="/blog/furniture-care" passHref>
+              <a className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <span className="text-2xl mr-3">🛋️</span>
+                <span className="font-medium">العناية بالأثاث</span>
+              </a>
+            </Link>
+            <Link href="/blog/cost-estimation" passHref>
+              <a className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <span className="text-2xl mr-3">💰</span>
+                <span className="font-medium">تقدير التكلفة</span>
+              </a>
+            </Link>
           </div>
         </div>
       </div>
