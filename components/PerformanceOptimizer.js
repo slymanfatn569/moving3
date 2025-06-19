@@ -19,18 +19,19 @@ export default function PerformanceOptimizer() {
     // Lazy load images on scroll
     const lazyLoadImages = () => {
       const images = document.querySelectorAll('img[data-lazy]')
-      const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const img = entry.target
-            img.src = img.dataset.src
-            img.classList.add('loaded')
-            imageObserver.unobserve(img)
-          }
+      if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target
+              img.src = img.dataset.src
+              img.classList.add('loaded')
+              imageObserver.unobserve(img)
+            }
+          })
         })
-      })
-
-      images.forEach(img => imageObserver.observe(img))
+        images.forEach(img => imageObserver.observe(img))
+      }
     }
 
     // Prefetch links on hover
@@ -125,11 +126,6 @@ export default function PerformanceOptimizer() {
         try {
           const registration = await navigator.serviceWorker.register('/service-worker.js')
           console.log('Service Worker registered:', registration)
-
-          // Check for updates periodically
-          setInterval(() => {
-            registration.update()
-          }, 60 * 60 * 1000) // Every hour
         } catch (error) {
           console.error('Service Worker registration failed:', error)
         }
@@ -168,19 +164,6 @@ export default function PerformanceOptimizer() {
     // Cleanup
     return optimizeMemory()
   }, [router])
-
-  // Report Web Vitals
-  useEffect(() => {
-    if (typeof window !== 'undefined' && 'web-vital' in window) {
-      import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-        getCLS(console.log)
-        getFID(console.log)
-        getFCP(console.log)
-        getLCP(console.log)
-        getTTFB(console.log)
-      })
-    }
-  }, [])
 
   return null // This component doesn't render anything
 } 
