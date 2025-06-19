@@ -1,40 +1,198 @@
-// This is a simple service worker for caching static assets
-const CACHE_NAME = 'fakhr-khaleej-v2';
+// Service Worker Version
+const CACHE_VERSION = 'v1.0.0';
+const CACHE_NAME = `moving-app-${CACHE_VERSION}`;
+
+// Files to cache
 const urlsToCache = [
   '/',
-  '/index.js',
+  '/contact',
+  '/services',
+  '/areas',
+  '/blog',
+  '/testimonials',
+  '/privacy',
+  '/terms',
+  '/styles/globals.css',
   '/manifest.json',
-  '/images/placeholder.jpg',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png',
   '/favicon.ico',
-  '/icons/icon-16x16.png',
-  '/icons/icon-32x32.png',
-  '/icons/icon-144x144.png',
+  '/images/placeholder.jpg',
+  '/images/moving_company_professional.jpeg'
 ];
 
-// Skip waiting to take control immediately
+// Install Event - Cache core files
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Opened cache:', CACHE_NAME);
-        
-        // Intentar cachear cada recurso individualmente para que los errores no detengan todo
-        const cachePromises = urlsToCache.map(url => {
-          return cache.add(url).catch(error => {
-            console.warn(`Failed to cache: ${url}`, error);
-            return Promise.resolve(); // Continuar a pesar del error
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache.map(url => {
+          // Add base path for production
+          const basePath = self.location.pathname.includes('/moving3') ? '/moving3' : '';
+          return basePath + url;
+        }));
+      })
+      .then(() => self.skipWaiting())
+  );
+});
+
+// Activate Event - Clean old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames
+          .filter(cacheName => cacheName.startsWith('moving-app-') && cacheName !== CACHE_NAME)
+          .map(cacheName => caches.delete(cacheName))
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// Fetch Event - Network first, cache fallback strategy
+self.addEventListener('fetch', (event) => {
+  // Skip non-GET requests
+  if (event.request.method !== 'GET') return;
+
+  // Skip cross-origin requests
+  if (!event.request.url.startsWith(self.location.origin)) return;
+
+  event.respondWith(
+    // Try network first
+    fetch(event.request)
+      .then((response) => {
+        // Check if we received a valid response
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
+
+        // Clone the response
+        const responseToCache = response.clone();
+
+        // Cache the fetched response
+        caches.open(CACHE_NAME)
+          .then((cache) => {
+            cache.put(event.request, responseToCache);
           });
-        });
-        
-        return Promise.all(cachePromises);
+
+        return response;
+      })
+      .catch(() => {
+        // Network failed, try cache
+        return caches.match(event.request)
+          .then((response) => {
+            if (response) {
+              return response;
+            }
+
+            // Return offline page for navigation requests
+            if (event.request.mode === 'navigate') {
+              return caches.match('/');
+            }
+
+            // Return placeholder for images
+            if (event.request.destination === 'image') {
+              return caches.match('/images/placeholder.jpg');
+            }
+          });
       })
   );
-  
-  // Activate immediately
-  self.skipWaiting();
 });
+
+// Background sync for form submissions
+self.addEventListener('sync', (event) => {
+  if (event.tag === 'contact-form-sync') {
+    event.waitUntil(sendPendingForms());
+  }
+});
+
+// Send pending forms when back online
+async function sendPendingForms() {
+  const cache = await caches.open('form-submissions');
+  const requests = await cache.keys();
+  
+  for (const request of requests) {
+    const response = await cache.match(request);
+    const formData = await response.json();
+    
+    try {
+      // Attempt to send the form
+      await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      // Remove from cache if successful
+      await cache.delete(request);
+    } catch (error) {
+      console.error('Failed to sync form:', error);
+    }
+  }
+}
+
+// Push notifications
+self.addEventListener('push', (event) => {
+  const options = {
+    body: event.data ? event.data.text() : 'لديك إشعار جديد',
+    icon: '/icon-192x192.png',
+    badge: '/icon-192x192.png',
+    vibrate: [100, 50, 100],
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: 1
+    },
+    actions: [
+      {
+        action: 'explore',
+        title: 'عرض التفاصيل',
+      },
+      {
+        action: 'close',
+        title: 'إغلاق',
+      },
+    ]
+  };
+
+  event.waitUntil(
+    self.registration.showNotification('نقل العفش', options)
+  );
+});
+
+// Notification click handler
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+
+  if (event.action === 'explore') {
+    event.waitUntil(
+      clients.openWindow('/')
+    );
+  }
+});
+
+// Periodic background sync for updates
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'update-content') {
+    event.waitUntil(updateContent());
+  }
+});
+
+async function updateContent() {
+  const cache = await caches.open(CACHE_NAME);
+  const requests = await cache.keys();
+  
+  for (const request of requests) {
+    try {
+      const response = await fetch(request);
+      if (response && response.status === 200) {
+        await cache.put(request, response);
+      }
+    } catch (error) {
+      console.error('Failed to update:', request.url);
+    }
+  }
+}
 
 // Create a fallback image using canvas
 function createFallbackIcon(size) {
@@ -105,28 +263,6 @@ function getIconSize(url) {
   }
   return 144; // Default fallback size
 }
-
-// Activate and claim clients
-self.addEventListener('activate', (event) => {
-  console.log('Service worker activating...');
-  
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(() => {
-      console.log('Service worker now active and controlling clients');
-      // Claim clients so the service worker is in control immediately
-      return self.clients.claim();
-    })
-  );
-});
 
 // Handle fetch events
 self.addEventListener('fetch', (event) => {

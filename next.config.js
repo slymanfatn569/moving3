@@ -1,119 +1,137 @@
 /** @type {import('next').NextConfig} */
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
-
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   swcMinify: true,
+  output: 'export',
+  
+  // Image optimization settings
   images: {
-    domains: ['maps.googleapis.com', 'maps.gstatic.com'],
     unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
   },
   
-  basePath: '/moving3',
-  assetPrefix: '/moving3/',
+  // Performance optimizations
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['@icons-pack/react-simple-icons'],
+  },
   
-  // Enable compression for better performance
+  // Compression
   compress: true,
   
-  // Add this for static export support
+  // PWA Support
+  headers: async () => [
+    {
+      source: '/(.*)',
+      headers: [
+        {
+          key: 'X-Content-Type-Options',
+          value: 'nosniff',
+        },
+        {
+          key: 'X-Frame-Options',
+          value: 'DENY',
+        },
+        {
+          key: 'X-XSS-Protection',
+          value: '1; mode=block',
+        },
+      ],
+    },
+    {
+      source: '/service-worker.js',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=0, must-revalidate',
+        },
+      ],
+    },
+  ],
+  
+  // Environment variables
+  env: {
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'https://slymanfatn569.github.io/moving3',
+  },
+  
+  // Base path for GitHub Pages
+  basePath: process.env.NODE_ENV === 'production' ? '/moving3' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/moving3' : '',
+  
+  // Webpack configuration
+  webpack: (config, { dev, isServer }) => {
+    // Optimize bundle size
+    if (!dev && !isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          vendor: {
+            name: 'vendor',
+            chunks: 'all',
+            test: /node_modules/,
+            priority: 20,
+          },
+          common: {
+            name: 'common',
+            minChunks: 2,
+            chunks: 'all',
+            priority: 10,
+            reuseExistingChunk: true,
+            enforce: true,
+          },
+        },
+      };
+    }
+    
+    // Fix for image loading issues
+    config.module.rules.push({
+      test: /\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i,
+      type: 'asset',
+      parser: {
+        dataUrlCondition: {
+          maxSize: 8 * 1024, // 8kb
+        },
+      },
+    });
+    
+    return config;
+  },
+  
+  // Trailing slash
   trailingSlash: true,
   
-  // Set cache headers for static assets
-  async headers() {
+  // Redirects
+  async redirects() {
     return [
       {
-        source: '/images/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          }
-        ],
-      },
-      {
-        source: '/_next/static/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          }
-        ],
-      },
-      {
-        source: '/((?!contact|areas).*)',
-        headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(self), interest-cohort=()'
-          },
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com; connect-src 'self'; img-src 'self' data: https://maps.googleapis.com https://maps.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src https://www.google.com/maps/ https://maps.googleapis.com;"
-          }
-        ],
-      },
-      {
-        source: '/(contact|areas)(.*)',
-        headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(self), interest-cohort=()'
-          },
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com; connect-src 'self'; img-src 'self' data: https://maps.googleapis.com https://maps.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src https://www.google.com/maps/ https://maps.googleapis.com;"
-          }
-        ],
+        source: '/home',
+        destination: '/',
+        permanent: true,
       },
     ];
-  }
-};
+  },
+  
+  // Bundle analyzer
+  ...(process.env.ANALYZE && {
+    analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
+    analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
+    bundleAnalyzerConfig: {
+      server: {
+        analyzerMode: 'static',
+        reportFilename: '../bundles/server.html',
+      },
+      browser: {
+        analyzerMode: 'static',
+        reportFilename: '../bundles/client.html',
+      },
+    },
+  }),
+}
 
-module.exports = withBundleAnalyzer(nextConfig);
+module.exports = nextConfig
  
