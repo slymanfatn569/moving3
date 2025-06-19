@@ -13,7 +13,7 @@
     "start": "next start",
     "lint": "next lint",
     "analyze": "cross-env ANALYZE=true next build",
-    "predeploy": "rimraf out && next build && next export && powershell -Command \"New-Item -Path out\\.nojekyll -ItemType File -Force\" && rimraf out/_next/data",
+    "predeploy": "rimraf out && next build && powershell -Command \"New-Item -Path out\\.nojekyll -ItemType File -Force\"",
     "deploy": "gh-pages -d out",
     "build:clean": "rimraf .next out && npm run build",
     "prod:full": "npm install && npm run lint && npm run build:clean && npm run start"
