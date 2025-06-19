@@ -1,87 +1,73 @@
 {
-  "name": "فخر الخليج - خدمات نقل العفش والأثاث المتخصصة",
-  "short_name": "فخر الخليج",
-  "description": "مزود رائد لخدمات نقل العفش والأثاث في جميع أنحاء المملكة العربية السعودية، نقدم خدمات احترافية للأفراد والشركات والمؤسسات.",
-  "start_url": "/",
+  "name": "نقل العفش - خدمات نقل الأثاث الاحترافية",
+  "short_name": "نقل العفش",
+  "description": "شركة رائدة في خدمات نقل العفش والأثاث في المملكة العربية السعودية",
+  "start_url": "/moving3/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#051937",
-  "orientation": "portrait",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "scope": "/moving3/",
+  "lang": "ar",
   "dir": "rtl",
-  "lang": "ar-SA",
-  "scope": "/",
   "prefer_related_applications": false,
   "related_applications": [],
-  "categories": ["business", "services", "moving"],
+  "categories": ["business", "productivity"],
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-72x72.png",
+      "src": "/moving3/icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable any"
     },
     {
-      "src": "/icons/icon-96x96.png",
+      "src": "/moving3/icons/icon-96x96.png",
       "sizes": "96x96",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable any"
     },
     {
-      "src": "/icons/icon-128x128.png",
+      "src": "/moving3/icons/icon-128x128.png",
       "sizes": "128x128",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable any"
     },
     {
-      "src": "/icons/icon-144x144.png",
+      "src": "/moving3/icons/icon-144x144.png",
       "sizes": "144x144",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable any"
     },
     {
-      "src": "/icons/icon-152x152.png",
+      "src": "/moving3/icons/icon-152x152.png",
       "sizes": "152x152",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable any"
     },
     {
-      "src": "/icons/icon-384x384.png",
+      "src": "/moving3/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/moving3/icons/icon-384x384.png",
       "sizes": "384x384",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable any"
     },
     {
-      "src": "/icons/maskable-icon-512x512.png",
+      "src": "/moving3/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "maskable any"
     }
   ],
   "screenshots": [
     {
-      "src": "/screenshots/home-screen.jpg",
-      "sizes": "1080x1920",
-      "type": "image/jpeg",
-      "platform": "narrow",
-      "label": "الشاشة الرئيسية لموقع فخر الخليج"
-    },
-    {
-      "src": "/screenshots/services-screen.jpg",
-      "sizes": "1080x1920",
-      "type": "image/jpeg",
-      "platform": "narrow",
-      "label": "صفحة خدمات فخر الخليج"
+      "src": "/moving3/images/moving_company_professional.jpeg",
+      "sizes": "1280x720",
+      "type": "image/jpeg"
     }
   ],
   "shortcuts": [
