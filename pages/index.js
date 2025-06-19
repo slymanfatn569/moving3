@@ -13,7 +13,24 @@ import SEO from '../components/SEO'
 
 // بيانات المناطق للسلايدر
 const allAreas = [
-  // جدة
+  // الرياض - 15 منطقة
+  { slug: 'al-olaya', name: 'العليا', city: 'الرياض' },
+  { slug: 'al-malaz', name: 'الملز', city: 'الرياض' },
+  { slug: 'al-narjis', name: 'النرجس', city: 'الرياض' },
+  { slug: 'hittin', name: 'حطين', city: 'الرياض' },
+  { slug: 'al-yasmin', name: 'الياسمين', city: 'الرياض' },
+  { slug: 'al-sahafa', name: 'الصحافة', city: 'الرياض' },
+  { slug: 'al-nakheel', name: 'النخيل', city: 'الرياض' },
+  { slug: 'king-fahd', name: 'الملك فهد', city: 'الرياض' },
+  { slug: 'al-wurud', name: 'الورود', city: 'الرياض' },
+  { slug: 'al-hamra-riyadh', name: 'الحمراء', city: 'الرياض' },
+  { slug: 'al-maather', name: 'المعذر', city: 'الرياض' },
+  { slug: 'al-sulimaniyah', name: 'السليمانية', city: 'الرياض' },
+  { slug: 'al-mugharizat', name: 'المغرزات', city: 'الرياض' },
+  { slug: 'al-aqiq', name: 'العقيق', city: 'الرياض' },
+  { slug: 'al-shuhada', name: 'الشهداء', city: 'الرياض' },
+  
+  // جدة - 12 منطقة
   { slug: 'al-rawdah', name: 'الروضة', city: 'جدة' },
   { slug: 'al-hamra', name: 'الحمراء', city: 'جدة' },
   { slug: 'al-andalus', name: 'الأندلس', city: 'جدة' },
@@ -22,17 +39,47 @@ const allAreas = [
   { slug: 'al-shati', name: 'الشاطئ', city: 'جدة' },
   { slug: 'al-safa', name: 'الصفا', city: 'جدة' },
   { slug: 'al-khalidiyah', name: 'الخالدية', city: 'جدة' },
-  // الرياض
-  { slug: 'al-olaya', name: 'العليا', city: 'الرياض' },
-  { slug: 'al-malaz', name: 'الملز', city: 'الرياض' },
-  { slug: 'al-narjis', name: 'النرجس', city: 'الرياض' },
-  { slug: 'hittin', name: 'حطين', city: 'الرياض' },
-  { slug: 'al-yasmin', name: 'الياسمين', city: 'الرياض' },
-  // الدمام
+  { slug: 'al-balad', name: 'البلد', city: 'جدة' },
+  { slug: 'al-aziziyah', name: 'العزيزية', city: 'جدة' },
+  { slug: 'al-faisaliyah', name: 'الفيصلية', city: 'جدة' },
+  { slug: 'al-naseem', name: 'النسيم', city: 'جدة' },
+  
+  // الدمام - 10 مناطق
   { slug: 'al-faisaliyah-dammam', name: 'الفيصلية', city: 'الدمام' },
-  { slug: 'al-shatea', name: 'الشاطئ', city: 'الدمام' },
+  { slug: 'al-shatea-dammam', name: 'الشاطئ', city: 'الدمام' },
   { slug: 'al-aziziyah-dammam', name: 'العزيزية', city: 'الدمام' },
-  { slug: 'uhud', name: 'أحد', city: 'الدمام' }
+  { slug: 'uhud', name: 'أحد', city: 'الدمام' },
+  { slug: 'al-adamah', name: 'الآدمة', city: 'الدمام' },
+  { slug: 'al-jalawiyah', name: 'الجلوية', city: 'الدمام' },
+  { slug: 'al-badiyah', name: 'البادية', city: 'الدمام' },
+  { slug: 'al-ferdous', name: 'الفردوس', city: 'الدمام' },
+  { slug: 'al-anoud', name: 'العنود', city: 'الدمام' },
+  { slug: 'al-murjan', name: 'المرجان', city: 'الدمام' },
+  
+  // الخبر - 8 مناطق
+  { slug: 'al-ulaya-khobar', name: 'العليا', city: 'الخبر' },
+  { slug: 'al-rakah', name: 'الراكة', city: 'الخبر' },
+  { slug: 'al-jisir', name: 'الجسر', city: 'الخبر' },
+  { slug: 'al-corniche', name: 'الكورنيش', city: 'الخبر' },
+  { slug: 'al-thuqbah', name: 'الثقبة', city: 'الخبر' },
+  { slug: 'al-aqrabiyah', name: 'العقربية', city: 'الخبر' },
+  { slug: 'doha-khobar', name: 'الدوحة', city: 'الخبر' },
+  { slug: 'al-qasur', name: 'القصور', city: 'الخبر' },
+  
+  // مكة المكرمة - 6 مناطق
+  { slug: 'al-aziziyah-makkah', name: 'العزيزية', city: 'مكة المكرمة' },
+  { slug: 'al-shishe', name: 'الشيشة', city: 'مكة المكرمة' },
+  { slug: 'al-zahir', name: 'الظاهر', city: 'مكة المكرمة' },
+  { slug: 'al-awali', name: 'العوالي', city: 'مكة المكرمة' },
+  { slug: 'al-rusaifah', name: 'الرصيفة', city: 'مكة المكرمة' },
+  { slug: 'al-kakiyah', name: 'الكعكية', city: 'مكة المكرمة' },
+  
+  // المدينة المنورة - 5 مناطق
+  { slug: 'al-haram', name: 'الحرم', city: 'المدينة المنورة' },
+  { slug: 'quba', name: 'قباء', city: 'المدينة المنورة' },
+  { slug: 'al-awali-madinah', name: 'العوالي', city: 'المدينة المنورة' },
+  { slug: 'al-khalil', name: 'الخليل', city: 'المدينة المنورة' },
+  { slug: 'al-uyun', name: 'العيون', city: 'المدينة المنورة' }
 ];
 
 // مكوّن السلايدر للمناطق
@@ -42,14 +89,14 @@ const AreasSlider = () => {
   // تحريك السلايدر إلى اليمين
   const slideRight = () => {
     setStartIndex((prevIndex) => 
-      prevIndex === 0 ? allAreas.length - 5 : prevIndex - 1
+      prevIndex === 0 ? Math.max(0, allAreas.length - 7) : prevIndex - 1
     );
   };
 
   // تحريك السلايدر إلى اليسار
   const slideLeft = () => {
     setStartIndex((prevIndex) => 
-      prevIndex >= allAreas.length - 5 ? 0 : prevIndex + 1
+      prevIndex >= allAreas.length - 7 ? 0 : prevIndex + 1
     );
   };
 
@@ -57,52 +104,140 @@ const AreasSlider = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       slideLeft();
-    }, 3000);
+    }, 4000);
     
     return () => clearInterval(interval);
-  }, [startIndex]);
+  }, []);
 
   // المناطق المعروضة حالياً
-  const visibleAreas = [...allAreas.slice(startIndex), ...allAreas.slice(0, startIndex)]
-    .slice(0, 7);
+  const visibleAreas = allAreas.slice(startIndex, startIndex + 7);
 
   return (
-    <div className="relative py-4 w-full mx-auto">
-      <div className="flex items-center justify-between">
+    <div className="relative py-8 w-full mx-auto max-w-7xl">
+      {/* Navigation Buttons */}
+      <div className="flex items-center justify-center gap-4 mb-8">
         <button 
-          className="bg-primary text-white rounded-full p-3 shadow-lg hover:bg-primary-dark transition-all duration-300 focus:outline-none z-[5] relative transform hover:scale-110"
+          className="bg-white text-primary border-2 border-primary rounded-full p-3 shadow-lg hover:bg-primary hover:text-white transition-all duration-300 focus:outline-none transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={slideRight}
-          aria-label="السابق"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-        
-        <div className="flex-1 flex justify-between px-4 space-x-2 rtl:space-x-reverse overflow-x-auto no-scrollbar">
-          {visibleAreas.map((area, index) => (
-            <Link 
-              href={`/areas/${area.slug}`} 
-              key={`${area.slug}-${index}`}
-              passHref
-            >
-              <a className="bg-white shadow-lg rounded-xl py-4 px-6 min-w-[120px] mx-1 text-center hover:bg-primary hover:text-white transition-all duration-300 flex-shrink-0 transform hover:scale-105">
-                <span className="font-bold block text-lg">{area.name}</span>
-                <span className="text-sm text-gray-500 hover:text-white/80">{area.city}</span>
-              </a>
-            </Link>
-          ))}
-        </div>
-        
-        <button 
-          className="bg-primary text-white rounded-full p-3 shadow-lg hover:bg-primary-dark transition-all duration-300 focus:outline-none z-[5] relative transform hover:scale-110"
-          onClick={slideLeft}
-          aria-label="التالي"
+          disabled={startIndex === 0}
+          aria-label="المناطق السابقة"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
+        
+        <span className="text-sm text-gray-600 font-medium">
+          {startIndex + 1} - {Math.min(startIndex + 7, allAreas.length)} من {allAreas.length}
+        </span>
+        
+        <button 
+          className="bg-white text-primary border-2 border-primary rounded-full p-3 shadow-lg hover:bg-primary hover:text-white transition-all duration-300 focus:outline-none transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={slideLeft}
+          disabled={startIndex >= allAreas.length - 7}
+          aria-label="المناطق التالية"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Areas Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 px-4">
+        {visibleAreas.map((area, index) => (
+          <Link 
+            href={`/areas/${area.slug}`} 
+            key={`${area.slug}-${startIndex}-${index}`}
+            passHref
+          >
+            <a className="group bg-white shadow-lg rounded-2xl p-4 text-center hover:bg-gradient-to-br hover:from-primary hover:to-primary-dark hover:text-white transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl border border-gray-100">
+              {/* Area Icon */}
+              <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex items-center justify-center text-2xl group-hover:bg-white/20 transition-all duration-300">
+                🏘️
+              </div>
+              
+              {/* Area Name */}
+              <h3 className="font-bold text-lg mb-1 text-gray-800 group-hover:text-white transition-colors">
+                {area.name}
+              </h3>
+              
+              {/* City Name */}
+              <p className="text-sm text-gray-500 group-hover:text-white/90 transition-colors">
+                {area.city}
+              </p>
+              
+              {/* Hover Arrow */}
+              <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <svg className="w-5 h-5 mx-auto text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </div>
+            </a>
+          </Link>
+        ))}
+      </div>
+
+      {/* Pagination Dots */}
+      <div className="flex justify-center mt-8 gap-2">
+        {Array.from({ length: Math.ceil(allAreas.length / 7) }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => setStartIndex(i * 7)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              Math.floor(startIndex / 7) === i 
+                ? 'bg-primary scale-125' 
+                : 'bg-gray-300 hover:bg-gray-400'
+            }`}
+            aria-label={`الصفحة ${i + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Cities Summary */}
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto">
+        <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200 hover:shadow-lg transition-shadow">
+          <div className="text-2xl mb-2">🏙️</div>
+          <div className="text-2xl font-bold text-blue-600 mb-1">
+            {allAreas.filter(area => area.city === 'الرياض').length}
+          </div>
+          <div className="text-sm text-blue-700 font-medium">منطقة في الرياض</div>
+        </div>
+        <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-xl border border-green-200 hover:shadow-lg transition-shadow">
+          <div className="text-2xl mb-2">🌊</div>
+          <div className="text-2xl font-bold text-green-600 mb-1">
+            {allAreas.filter(area => area.city === 'جدة').length}
+          </div>
+          <div className="text-sm text-green-700 font-medium">منطقة في جدة</div>
+        </div>
+        <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200 hover:shadow-lg transition-shadow">
+          <div className="text-2xl mb-2">🏭</div>
+          <div className="text-2xl font-bold text-purple-600 mb-1">
+            {allAreas.filter(area => area.city === 'الدمام').length}
+          </div>
+          <div className="text-sm text-purple-700 font-medium">منطقة في الدمام</div>
+        </div>
+        <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl border border-orange-200 hover:shadow-lg transition-shadow">
+          <div className="text-2xl mb-2">🏖️</div>
+          <div className="text-2xl font-bold text-orange-600 mb-1">
+            {allAreas.filter(area => area.city === 'الخبر').length}
+          </div>
+          <div className="text-sm text-orange-700 font-medium">منطقة في الخبر</div>
+        </div>
+        <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl border border-yellow-200 hover:shadow-lg transition-shadow">
+          <div className="text-2xl mb-2">🕌</div>
+          <div className="text-2xl font-bold text-yellow-600 mb-1">
+            {allAreas.filter(area => area.city === 'مكة المكرمة').length}
+          </div>
+          <div className="text-sm text-yellow-700 font-medium">منطقة في مكة</div>
+        </div>
+        <div className="text-center p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl border border-pink-200 hover:shadow-lg transition-shadow">
+          <div className="text-2xl mb-2">🕌</div>
+          <div className="text-2xl font-bold text-pink-600 mb-1">
+            {allAreas.filter(area => area.city === 'المدينة المنورة').length}
+          </div>
+          <div className="text-sm text-pink-700 font-medium">منطقة في المدينة</div>
+        </div>
       </div>
     </div>
   );
