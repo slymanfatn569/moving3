@@ -6,16 +6,17 @@ import { useRouter } from 'next/router';
 import PerformanceOptimizer from '../components/PerformanceOptimizer'
 
 export default function App({ Component, pageProps }) {
-  const { basePath } = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     // Register service worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async function() {
         try {
-          // The scope must end with a slash
-          const scope = `${basePath}/` || '/';
+          // Use correct path with basePath
+          const basePath = process.env.NODE_ENV === 'production' ? '/moving3' : '';
           const swUrl = `${basePath}/service-worker.js`;
+          const scope = `${basePath}/`;
 
           const registration = await navigator.serviceWorker.register(swUrl, {
             scope: scope
@@ -26,7 +27,7 @@ export default function App({ Component, pageProps }) {
         }
       });
     }
-  }, [basePath]);
+  }, []);
 
   useEffect(() => {
     // Track page views
@@ -38,28 +39,23 @@ export default function App({ Component, pageProps }) {
       }
     }
     
-    const router = useRouter()
     router.events.on('routeChangeComplete', handleRouteChange)
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
-  }, [useRouter().events])
+  }, [router.events])
 
   return (
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* Next.js automatically handles basePath for links in Head */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icons/icon-192x192.png" type="image/png" sizes="192x192" />
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <link rel="icon" href="/moving3/favicon.ico" sizes="any" />
+        <link rel="icon" href="/moving3/icons/icon-192x192.png" type="image/png" sizes="192x192" />
+        <link rel="apple-touch-icon" href="/moving3/icons/icon-192x192.png" />
+        <link rel="manifest" href="/moving3/manifest.json" />
+        <meta name="theme-color" content="#2563eb" />
       </Head>
       <div className="font-tajawal" dir="rtl">
-        {/* Explicitly construct path for Script component */}
-        <Script
-          src={`${basePath}/config/env.js`}
-          strategy="beforeInteractive"
-        />
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <>

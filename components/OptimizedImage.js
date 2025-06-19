@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import { useState } from 'react'
+import React, { useState } from 'react';
+import Image from 'next/image';
 
 // Determine basePath for images
 const getBasePath = () => {
@@ -13,78 +13,72 @@ const getBasePath = () => {
   return '';
 };
 
-export default function OptimizedImage({ 
+const OptimizedImage = ({ 
   src, 
   alt, 
   width, 
   height, 
   className = '', 
   priority = false,
-  quality = 75,
-  placeholder = 'blur',
-  blurDataURL,
-  ...props 
-}) {
-  const [isLoading, setLoading] = useState(true)
-  const [hasError, setHasError] = useState(false)
+  placeholder = 'blur'
+}) => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   
-  // Fix image path for production
-  const getImageSrc = () => {
-    if (!src) return '/images/placeholder.jpg'
-    
-    // If it's already a full URL, return as is
-    if (src.startsWith('http://') || src.startsWith('https://')) {
-      return src
-    }
-    
-    // Handle base path in production
-    const basePath = process.env.NODE_ENV === 'production' ? '/moving3' : ''
-    
-    // Ensure src starts with /
-    const imagePath = src.startsWith('/') ? src : `/${src}`
-    
-    return `${basePath}${imagePath}`
-  }
+  // Handle base path for production
+  const basePath = process.env.NODE_ENV === 'production' ? '/moving3' : '';
   
-  const handleLoadingComplete = () => {
-    setLoading(false)
-  }
+  // Fix image path
+  const imageSrc = src.startsWith('/') ? `${basePath}${src}` : src;
+  
+  // Fallback image
+  const fallbackSrc = `${basePath}/images/placeholder.jpg`;
+  
+  const handleLoad = () => {
+    setLoading(false);
+  };
   
   const handleError = () => {
-    setHasError(true)
-    setLoading(false)
-  }
-  
-  if (hasError) {
+    setError(true);
+    setLoading(false);
+  };
+
+  // Create blur data URL
+  const blurDataURL = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkbHB0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==';
+
+  if (error) {
     return (
-      <div 
-        className={`bg-gray-200 flex items-center justify-center ${className}`}
-        style={{ width, height }}
-      >
-        <span className="text-gray-400">فشل تحميل الصورة</span>
+      <div className={`bg-gray-200 flex items-center justify-center ${className}`}>
+        <span className="text-gray-500">صورة غير متوفرة</span>
       </div>
-    )
+    );
   }
-  
+
   return (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div className={`relative ${className}`}>
       <Image
-        src={getImageSrc()}
+        src={imageSrc}
         alt={alt}
         width={width}
         height={height}
-        quality={quality}
         priority={priority}
-        placeholder={blurDataURL ? placeholder : 'empty'}
+        placeholder={placeholder}
         blurDataURL={blurDataURL}
-        className={`
-          duration-700 ease-in-out
-          ${isLoading ? 'scale-110 blur-2xl grayscale' : 'scale-100 blur-0 grayscale-0'}
-        `}
-        onLoadingComplete={handleLoadingComplete}
+        onLoad={handleLoad}
         onError={handleError}
-        {...props}
+        className={`transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
+        style={{
+          maxWidth: '100%',
+          height: 'auto',
+        }}
       />
+      {loading && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+          <div className="text-gray-500">جاري التحميل...</div>
+        </div>
+      )}
     </div>
-  )
-} 
+  );
+};
+
+export default OptimizedImage; 

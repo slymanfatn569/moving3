@@ -15,19 +15,21 @@ const SEO = ({
 }) => {
   const router = useRouter()
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'نقل العفش'
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://moving-company.com'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://slymanfatn569.github.io/moving3'
   const currentUrl = `${siteUrl}${router.asPath}`
   
+  // Fix paths for production
+  const basePath = process.env.NODE_ENV === 'production' ? '/moving3' : ''
   const defaultImage = `${siteUrl}/images/moving_company_professional.jpeg`
   const ogImage = image ? `${siteUrl}${image}` : defaultImage
   
-  // Schema.org structured data
+  // Schema.org structured data with correct paths
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "MovingCompany",
     "name": siteName,
     "url": siteUrl,
-    "logo": `${siteUrl}/logo.png`,
+    "logo": `${siteUrl}/icons/icon-192x192.png`,
     "image": defaultImage,
     "description": "شركة رائدة في خدمات نقل العفش والأثاث في المملكة العربية السعودية",
     "address": {
@@ -95,7 +97,7 @@ const SEO = ({
         "name": siteName,
         "logo": {
           "@type": "ImageObject",
-          "url": `${siteUrl}/logo.png`
+          "url": `${siteUrl}/icons/icon-192x192.png`
         }
       },
       "datePublished": publishedTime,
@@ -188,12 +190,12 @@ const SEO = ({
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-title" content={siteName} />
       
-      {/* Favicon and Icons */}
-      <link rel="icon" href="/favicon.ico" />
-      <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
-      <link rel="manifest" href="/manifest.json" />
+      {/* Favicon and Icons with correct paths */}
+      <link rel="icon" href={`${basePath}/favicon.ico`} />
+      <link rel="apple-touch-icon" sizes="180x180" href={`${basePath}/icons/icon-192x192.png`} />
+      <link rel="icon" type="image/png" sizes="32x32" href={`${basePath}/icons/icon-192x192.png`} />
+      <link rel="icon" type="image/png" sizes="16x16" href={`${basePath}/icons/icon-192x192.png`} />
+      <link rel="manifest" href={`${basePath}/manifest.json`} />
       
       {/* Additional SEO Tags */}
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
