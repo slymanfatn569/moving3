@@ -185,6 +185,7 @@ export default function Layout({
         {/* أمان موقع الويب */}
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://i.postimg.cc https://maps.googleapis.com https://maps.gstatic.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com;" />
+        <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
       </Head>
 
       <Script
@@ -203,7 +204,7 @@ export default function Layout({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       
-      <div className="flex flex-col min-h-screen" dir="rtl">
+      <div className="min-h-screen flex flex-col" suppressHydrationWarning>
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 py-8">{children}</main>
         <Footer />

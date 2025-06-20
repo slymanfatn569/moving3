@@ -75,20 +75,15 @@
       "name": "اتصل بنا",
       "short_name": "اتصل",
       "description": "تواصل معنا للحصول على خدمات النقل",
-      "url": "/contact",
-      "icons": [{ "src": "/icons/contact-icon-192x192.png", "sizes": "192x192" }]
+      "url": "/moving3/contact",
+      "icons": [{ "src": "/moving3/icons/icon-192x192.png", "sizes": "192x192" }]
     },
     {
       "name": "خدماتنا",
       "short_name": "خدمات",
-      "description": "استعرض خدمات فخر الخليج",
-      "url": "/services",
-      "icons": [{ "src": "/icons/services-icon-192x192.png", "sizes": "192x192" }]
+      "description": "استعرض خدماتنا المتنوعة",
+      "url": "/moving3/services",
+      "icons": [{ "src": "/moving3/icons/icon-192x192.png", "sizes": "192x192" }]
     }
-  ],
-  "serviceworker": {
-    "src": "/service-worker.js",
-    "scope": "/",
-    "update_via_cache": "none"
-  }
+  ]
 } 

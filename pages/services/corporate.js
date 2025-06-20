@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import Head from 'next/head'
-import StaticImage from '../../components/StaticImage'
+import OptimizedImage from '../../components/OptimizedImage'
 import Link from 'next/link'
 
 // خدمات النقل للشركات
@@ -97,7 +97,7 @@ export default function CorporateServicePage() {
 
       {/* قسم الترحيب */}
       <div className="relative h-[400px] w-full mb-12 rounded-lg overflow-hidden">
-        <StaticImage
+        <OptimizedImage
           src="/images/office_moving_company.jpeg"
           alt="خدمات نقل المكاتب والشركات في السعودية | فخر الخليج"
           width={1200}
@@ -318,7 +318,7 @@ export default function CorporateServicePage() {
             </div>
           </div>
           <div className="md:w-1/3">
-            <StaticImage 
+            <OptimizedImage 
               src="/images/moving_company_professional.jpeg" 
               alt="خدمة نقل المكاتب المتخصصة" 
               width={400}

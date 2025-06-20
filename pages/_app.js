@@ -9,27 +9,6 @@ export default function App({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Register service worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', async function() {
-        try {
-          // Use correct path with basePath
-          const basePath = process.env.NODE_ENV === 'production' ? '/moving3' : '';
-          const swUrl = `${basePath}/service-worker.js`;
-          const scope = `${basePath}/`;
-
-          const registration = await navigator.serviceWorker.register(swUrl, {
-            scope: scope
-          });
-          console.log('Service Worker registered successfully with scope:', registration.scope);
-        } catch (error) {
-          console.error('Service Worker registration failed:', error);
-        }
-      });
-    }
-  }, []);
-
-  useEffect(() => {
     // Track page views
     const handleRouteChange = (url) => {
       if (typeof window !== 'undefined' && window.gtag) {

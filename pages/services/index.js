@@ -3,7 +3,7 @@ import Layout from '../../components/Layout'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import ImageLoader from '../../components/ImageLoader'
+import OptimizedImage from '../../components/OptimizedImage'
 
 // بيانات الخدمات الرئيسية
 const featuredServices = [
@@ -68,7 +68,7 @@ export default function ServicesIndexPage() {
 
       {/* قسم الترحيب */}
       <div className="relative h-[400px] w-full mb-12 rounded-lg overflow-hidden">
-        <ImageLoader
+        <OptimizedImage
           src="/images/luxury_furniture_movers.jpeg"
           alt="خدمات نقل العفش المتخصصة | فخر الخليج"
           width={1200}
@@ -111,7 +111,7 @@ export default function ServicesIndexPage() {
           >
             <a className="block bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
               <div className="relative h-64">
-                <ImageLoader 
+                <OptimizedImage 
                   src={service.image} 
                   alt={service.title} 
                   width={800}
@@ -180,7 +180,7 @@ export default function ServicesIndexPage() {
             </Link>
           </div>
           <div className="md:w-1/3 relative h-64 w-full rounded-lg overflow-hidden">
-            <ImageLoader 
+            <OptimizedImage 
               src="/images/experienced_movers_team.jpeg" 
               alt="عملية تصميم خدمة نقل مخصصة" 
               width={400}

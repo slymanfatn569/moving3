@@ -1,9 +1,8 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
-import ImageLoader from '../../components/ImageLoader'
+import OptimizedImage from '../../components/OptimizedImage'
 
 // خدمات فك وتركيب الأثاث
 const assemblyServices = [
@@ -117,7 +116,7 @@ export default function FurnitureAssemblyPage() {
 
       {/* قسم الترحيب */}
       <div className="relative h-[400px] w-full mb-12 rounded-lg overflow-hidden">
-        <ImageLoader
+        <OptimizedImage
           src="/images/experienced_movers_team.jpeg"
           alt="خدمات فك وتركيب الأثاث | فخر الخليج"
           width={1200}
@@ -348,7 +347,7 @@ export default function FurnitureAssemblyPage() {
             </Link>
           </div>
           <div className="md:w-1/3 relative h-64 w-full rounded-lg overflow-hidden">
-            <ImageLoader 
+            <OptimizedImage 
               src="/images/professional_movers_company.jpeg" 
               alt="تخصص في جميع أنواع الأثاث" 
               width={400}

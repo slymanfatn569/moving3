@@ -1,9 +1,8 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
-import ImageLoader from '../../components/ImageLoader'
+import OptimizedImage from '../../components/OptimizedImage'
 
 export default function CleaningServicePage() {
   return (
@@ -42,7 +41,7 @@ export default function CleaningServicePage() {
 
       {/* قسم الترحيب */}
       <div className="relative h-[400px] w-full mb-12 rounded-lg overflow-hidden">
-        <ImageLoader
+        <OptimizedImage
           src="/images/furniture_shipping_service.jpeg"
           alt="خدمات التنظيف المتخصصة | فخر الخليج"
           width={1200}
@@ -234,7 +233,7 @@ export default function CleaningServicePage() {
             </Link>
           </div>
           <div className="md:w-1/3 relative h-64 w-full rounded-lg overflow-hidden">
-            <ImageLoader 
+            <OptimizedImage 
               src="/images/experienced_movers_team.jpeg" 
               alt="خدمات تنظيف مخصصة" 
               width={400}

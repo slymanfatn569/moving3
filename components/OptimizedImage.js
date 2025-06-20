@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 const OptimizedImage = ({
   src,
@@ -15,6 +15,7 @@ const OptimizedImage = ({
 }) => {
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [retryCount, setRetryCount] = useState(0);
 
   // إضافة basePath للصور في الإنتاج
   const basePath = process.env.NODE_ENV === 'production' ? '/moving3' : '';
@@ -28,26 +29,33 @@ const OptimizedImage = ({
   // مسار الصورة البديلة
   const placeholderSrc = `${basePath}/images/placeholder.jpg`;
 
-  const handleLoad = (e) => {
+  const handleLoad = useCallback((e) => {
     setIsLoading(false);
+    setHasError(false);
     if (onLoad) onLoad(e);
-  };
+  }, [onLoad]);
 
-  const handleError = (e) => {
-    setHasError(true);
+  const handleError = useCallback((e) => {
     setIsLoading(false);
-    // استخدام الصورة البديلة
-    if (e.target.src !== placeholderSrc) {
+    
+    // تجنب الحلقة اللانهائية للأخطاء
+    if (retryCount < 1 && e.target.src !== placeholderSrc) {
+      setRetryCount(prev => prev + 1);
       e.target.src = placeholderSrc;
-      setHasError(false); // إعطاء فرصة أخيرة للصورة البديلة
+    } else {
+      setHasError(true);
     }
+    
     if (onError) onError(e);
-  };
+  }, [onError, retryCount, placeholderSrc]);
+
+  // إذا لم يكن هناك src، استخدم placeholder مباشرة
+  const finalSrc = src ? imageSrc : placeholderSrc;
 
   return (
     <div className={`relative ${className}`} style={{ width, height }}>
       {/* Loading indicator */}
-      {isLoading && (
+      {isLoading && !hasError && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
           <div className="w-8 h-8 bg-gray-400 rounded-full animate-bounce"></div>
         </div>
@@ -64,23 +72,24 @@ const OptimizedImage = ({
       )}
 
       {/* Image */}
-      <img
-        src={imageSrc || placeholderSrc}
-        alt={alt}
-        width={width}
-        height={height}
-        loading={priority ? 'eager' : 'lazy'}
-        onLoad={handleLoad}
-        onError={handleError}
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit,
-          display: hasError ? 'none' : 'block',
-          ...style
-        }}
-        {...rest}
-      />
+      {!hasError && (
+        <img
+          src={finalSrc}
+          alt={alt || 'صورة'}
+          width={width}
+          height={height}
+          loading={priority ? 'eager' : 'lazy'}
+          onLoad={handleLoad}
+          onError={handleError}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit,
+            ...style
+          }}
+          {...rest}
+        />
+      )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import Head from 'next/head'
-import StaticImage from '../../components/StaticImage'
+import OptimizedImage from '../../components/OptimizedImage'
 import Link from 'next/link'
 
 // مواد التغليف المستخدمة
@@ -110,7 +110,7 @@ export default function PackingServicePage() {
 
       {/* قسم الترحيب */}
       <div className="relative h-[400px] w-full mb-12 rounded-lg overflow-hidden">
-        <StaticImage
+        <OptimizedImage
           src="/images/packing_moving_service.jpeg"
           alt="خدمات التغليف المتخصصة | فخر الخليج"
           width={1200}
@@ -147,7 +147,7 @@ export default function PackingServicePage() {
         {specializedServices.map(service => (
           <div className="bg-white rounded-lg shadow-lg overflow-hidden" key={service.id}>
             <div className="relative h-64">
-              <StaticImage 
+              <OptimizedImage 
                 src={service.image} 
                 alt={service.title} 
                 width={800}

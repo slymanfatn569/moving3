@@ -1,9 +1,8 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
-import ImageLoader from '../../components/ImageLoader'
+import OptimizedImage from '../../components/OptimizedImage'
 
 // خدمات التخزين
 const storageServices = [
@@ -153,7 +152,7 @@ export default function StorageServicePage() {
 
       {/* قسم الترحيب */}
       <div className="relative h-[400px] w-full mb-12 rounded-lg overflow-hidden">
-        <ImageLoader
+        <OptimizedImage
           src="/images/commercial_moving_service.jpeg"
           alt="خدمات التخزين | فخر الخليج"
           width={1200}
@@ -267,7 +266,7 @@ export default function StorageServicePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="mb-4">
-              <ImageLoader 
+              <OptimizedImage 
                 src="/images/furniture_shipping_service.jpeg"
                 alt="التخزين قصير المدى"
                 width={600}
@@ -287,7 +286,7 @@ export default function StorageServicePage() {
           
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="mb-4">
-              <ImageLoader 
+              <OptimizedImage 
                 src="/images/experienced_movers_team.jpeg"
                 alt="التخزين طويل المدى"
                 width={600}
@@ -354,7 +353,7 @@ export default function StorageServicePage() {
             </Link>
           </div>
           <div className="md:w-1/3 relative h-64 w-full rounded-lg overflow-hidden">
-            <ImageLoader 
+            <OptimizedImage 
               src="/images/professional_movers_company.jpeg" 
               alt="تخزين المقتنيات الثمينة" 
               width={400}
