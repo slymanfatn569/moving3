@@ -71,17 +71,17 @@ self.addEventListener('fetch', event => {
         if (cachedResponse) {
           return cachedResponse
         }
-
+        
         return fetch(request)
           .then(response => {
             // Don't cache if not successful
             if (!response || response.status !== 200 || response.type !== 'basic') {
               return response
             }
-
+            
             // Clone the response
             const responseToCache = response.clone()
-
+            
             caches.open(CACHE_NAME)
               .then(cache => {
                 cache.put(request, responseToCache)
