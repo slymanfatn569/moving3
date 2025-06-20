@@ -142,15 +142,15 @@ const AreasSlider = () => {
           </svg>
         </button>
       </div>
-
+        
       {/* Areas Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 px-4">
-        {visibleAreas.map((area, index) => (
-          <Link 
-            href={`/areas/${area.slug}`} 
+          {visibleAreas.map((area, index) => (
+            <Link 
+              href={`/areas/${area.slug}`} 
             key={`${area.slug}-${startIndex}-${index}`}
-            passHref
-          >
+              passHref
+            >
             <a className="group bg-white shadow-lg rounded-2xl p-4 text-center hover:bg-gradient-to-br hover:from-primary hover:to-primary-dark hover:text-white transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl border border-gray-100">
               {/* Area Icon */}
               <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex items-center justify-center text-2xl group-hover:bg-white/20 transition-all duration-300">
@@ -173,15 +173,15 @@ const AreasSlider = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </div>
-            </a>
-          </Link>
-        ))}
-      </div>
-
+              </a>
+            </Link>
+          ))}
+        </div>
+        
       {/* Pagination Dots */}
       <div className="flex justify-center mt-8 gap-2">
         {Array.from({ length: Math.ceil(allAreas.length / 7) }, (_, i) => (
-          <button
+        <button 
             key={i}
             onClick={() => setStartIndex(i * 7)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
@@ -510,22 +510,22 @@ export default function Home({ featuredPosts }) {
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
                 خدمات نقل العفش والأثاث
                 <span className="block text-accent">المتخصصة</span>
-              </h1>
+            </h1>
               <p className="text-xl md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed">
                 حلول نقل عفش متكاملة وموثوقة للأفراد والشركات والمؤسسات 
                 في جميع أنحاء المملكة العربية السعودية
-              </p>
+            </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Link href="/services" passHref>
+              <Link href="/services" passHref>
                   <a className="bg-primary hover:bg-primary-dark text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
                     🔍 استكشاف خدماتنا
-                  </a>
-                </Link>
-                <Link href="/contact" passHref>
+                </a>
+              </Link>
+              <Link href="/contact" passHref>
                   <a className="bg-accent hover:bg-accent-dark text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
                     📞 طلب استشارة مجانية
-                  </a>
-                </Link>
+                </a>
+              </Link>
               </div>
             </div>
           </div>
@@ -575,7 +575,7 @@ export default function Home({ featuredPosts }) {
             {services.map((service) => (
               <div key={service.id} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100">
                 <div className="relative h-56 overflow-hidden">
-                  <ImageLoader 
+                <ImageLoader 
                     src={service.image} 
                     alt={service.title} 
                     width={400}
@@ -584,8 +584,8 @@ export default function Home({ featuredPosts }) {
                   />
                   <div className="absolute top-4 right-4 w-12 h-12 bg-white/90 rounded-full flex items-center justify-center text-2xl">
                     {service.icon}
-                  </div>
-                </div>
+              </div>
+            </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-primary transition-colors">
                     {service.title}
@@ -599,9 +599,9 @@ export default function Home({ featuredPosts }) {
                       <svg className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                       </svg>
-                    </a>
-                  </Link>
-                </div>
+                </a>
+              </Link>
+            </div>
               </div>
             ))}
           </div>
@@ -635,7 +635,7 @@ export default function Home({ featuredPosts }) {
               <div key={feature.id} className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 text-center">
                 <div className={`w-20 h-20 ${feature.color} rounded-2xl flex items-center justify-center text-3xl text-white mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   {feature.icon}
-                </div>
+              </div>
                 <h3 className="text-2xl font-bold mb-4 text-gray-800 group-hover:text-primary transition-colors">
                   {feature.title}
                 </h3>
@@ -669,9 +669,9 @@ export default function Home({ featuredPosts }) {
                   📚 جميع المقالات
                 </a>
               </Link>
-            </div>
           </div>
-        </section>
+        </div>
+      </section>
       )}
 
       {/* CTA Section */}
@@ -701,11 +701,11 @@ export default function Home({ featuredPosts }) {
 }
 
 export async function getStaticProps() {
-  const allPosts = getAllPosts()
+    const allPosts = getAllPosts()
   const featuredPosts = allPosts.filter(post => post.featured).slice(0, 6)
-  
-  return {
-    props: {
+    
+    return {
+      props: {
       featuredPosts
     },
   }

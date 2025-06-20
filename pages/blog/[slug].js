@@ -1,18 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import Head from 'next/head'
 import Link from 'next/link'
-import { format } from 'date-fns'
 import { useRouter } from 'next/router'
 import StaticImage from '../../components/StaticImage'
 import { getAllPosts, getPostBySlug } from '../../lib/blog'
-import ReactMarkdown from 'react-markdown'
 
 // Determine basePath for images
 const getBasePath = () => {
-  // For GitHub Pages we need to prepend the basePath
   if (typeof window !== 'undefined') {
-    // Check if we're on GitHub Pages
     if (window.location.hostname.includes('github.io')) {
       return '/moving3';
     }
@@ -20,9 +16,10 @@ const getBasePath = () => {
   return '';
 };
 
-export default function PostPage({ post, morePosts }) {
+export default function PostPage({ post, morePosts, allPosts }) {
   const router = useRouter()
   const basePath = getBasePath();
+  const [readingProgress, setReadingProgress] = useState(0);
 
   // Helper function to get the correct image path
   const getImagePath = (imagePath) => {
@@ -30,15 +27,34 @@ export default function PostPage({ post, morePosts }) {
     return imagePath.startsWith('/') ? `${basePath}${imagePath}` : `${basePath}/${imagePath}`;
   };
 
+  // Reading progress indicator
+  useEffect(() => {
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight - windowHeight;
+      const scrollTop = window.scrollY;
+      const progress = (scrollTop / documentHeight) * 100;
+      setReadingProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   if (router.isFallback) {
-    return <div>Loading...</div>
+    return (
+      <Layout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+        </div>
+      </Layout>
+    )
   }
 
   if (!post) {
-    // Si no hay artículo, mostrar un mensaje y un enlace a la página principal del blog
     return (
       <Layout
-        title="المقال غير موجود | مدونة فخر الخليج"
+        title="المقال غير موجود | شركة نقل العفش"
         description="المقال المطلوب غير موجود"
       >
         <div className="max-w-4xl mx-auto text-center py-16">
@@ -60,180 +76,400 @@ export default function PostPage({ post, morePosts }) {
   const authorAvatar = getImagePath(post.author.avatar);
   const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://slymanfatn569.github.io';
   const fullImageUrl = `${siteUrl}${coverImage}`;
+  const currentDate = new Date().toISOString();
+
+  // Generate FAQ Schema
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ما هي أفضل طريقة لنقل العفش؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "أفضل طريقة لنقل العفش هي الاستعانة بشركة نقل محترفة توفر خدمات التغليف والنقل والتركيب مع ضمان سلامة الأثاث."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "كم تكلفة نقل العفش في السعودية؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "تختلف تكلفة نقل العفش حسب المسافة وحجم الأثاث، وتتراوح عادة بين 800-5000 ريال سعودي للنقل المحلي."
+        }
+      }
+    ]
+  };
 
   return (
     <Layout
-      title={`${post.title} | مدونة فخر الخليج`}
+      title={`${post.title} | شركة نقل عفش`}
       description={post.excerpt}
-      keywords={`${post.category}, مدونة فخر الخليج, أزياء مهنية, ${post.title}`}
+      keywords={`${post.category}, نقل عفش, نقل أثاث, ${post.tags ? post.tags.join(', ') : ''}`}
+      ogImage={fullImageUrl}
     >
       <Head>
+        {/* SEO Meta Tags 2025 */}
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="googlebot" content="index, follow" />
+        <meta property="article:published_time" content={post.date} />
+        <meta property="article:modified_time" content={currentDate} />
+        <meta property="article:author" content={post.author.name} />
+        <meta property="article:section" content={post.category} />
+        {post.tags && post.tags.map((tag, index) => (
+          <meta key={index} property="article:tag" content={tag} />
+        ))}
+        
+        {/* Canonical URL */}
+        <link rel="canonical" href={`${siteUrl}/blog/${post.slug}`} />
+        
+        {/* Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "BlogPosting",
+              "@type": "Article",
+              "@id": `${siteUrl}/blog/${post.slug}#article`,
               "headline": post.title,
-              "image": fullImageUrl,
+              "description": post.excerpt,
+              "image": {
+                "@type": "ImageObject",
+                "url": fullImageUrl,
+                "width": 1200,
+                "height": 630
+              },
               "datePublished": post.date,
-              "dateModified": post.date,
+              "dateModified": currentDate,
               "author": {
                 "@type": "Person",
-                "name": post.author.name
+                "name": post.author.name,
+                "url": `${siteUrl}/about#${post.author.id}`,
+                "image": `${siteUrl}${authorAvatar}`
               },
               "publisher": {
                 "@type": "Organization",
-                "name": "فخر الخليج",
+                "name": "شركة نقل العفش",
                 "logo": {
                   "@type": "ImageObject",
-                  "url": `${siteUrl}${basePath}/icon-192x192.png`
+                  "url": `${siteUrl}${basePath}/icon-192x192.png`,
+                  "width": 192,
+                  "height": 192
                 }
               },
-              "description": post.excerpt
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `${siteUrl}/blog/${post.slug}`
+              },
+              "wordCount": post.content ? post.content.split(' ').length : 2000,
+              "keywords": post.tags ? post.tags.join(', ') : post.category,
+              "articleSection": post.category,
+              "inLanguage": "ar-SA",
+              "potentialAction": {
+                "@type": "ReadAction",
+                "target": `${siteUrl}/blog/${post.slug}`
+              }
+            })
+          }}
+        />
+        
+        {/* FAQ Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqSchema)
+          }}
+        />
+
+        {/* Breadcrumb Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "الرئيسية",
+                  "item": siteUrl
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "المدونة",
+                  "item": `${siteUrl}/blog`
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": post.title,
+                  "item": `${siteUrl}/blog/${post.slug}`
+                }
+              ]
             })
           }}
         />
       </Head>
 
-      <div className="max-w-4xl mx-auto">
-        {/* رأس المقال */}
-        <div className="mb-8 text-center">
-          <Link href="/blog" passHref>
-            <a className="text-primary hover:text-primary-dark inline-flex items-center mb-6 transition-colors">
-              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              العودة إلى المدونة
-            </a>
-          </Link>
-          <span className="inline-block bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full text-sm font-medium mb-4">
-            {post.category}
-          </span>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">{post.title}</h1>
-          <div className="flex items-center justify-center">
-            <div className="relative w-10 h-10 rounded-full overflow-hidden">
-              <StaticImage 
-                src={authorAvatar} 
-                alt={post.author.name}
-                width={40}
-                height={40}
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-            <div className="mr-3 text-right">
-              <p className="font-medium">{post.author.name}</p>
-              <p className="text-sm text-gray-500">{post.date} · {post.readingTime} دقائق للقراءة</p>
-            </div>
-          </div>
-        </div>
-
-        {/* صورة المقال */}
-        <div className="relative h-96 w-full mb-10 rounded-lg overflow-hidden">
-          <StaticImage 
-            src={coverImage} 
-            alt={post.title}
-            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-            loading="eager"
-          />
-        </div>
-
-        {/* محتوى المقال */}
-        <div className="prose prose-lg max-w-none mb-12">
-          <div dangerouslySetInnerHTML={{ __html: post.content }} />
-        </div>
-
-        {/* بطاقة الكاتب */}
-        <div className="bg-gray-50 rounded-lg p-8 mb-12">
-          <div className="flex items-center">
-            <div className="relative w-16 h-16 rounded-full overflow-hidden">
-              <StaticImage 
-                src={authorAvatar} 
-                alt={post.author.name}
-                width={64}
-                height={64}
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-            <div className="mr-4">
-              <h3 className="text-xl font-bold">عن {post.author.name}</h3>
-              <p className="text-gray-600">{post.author.title}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* مقالات ذات صلة */}
-        {morePosts.length > 0 && (
-          <div>
-            <h2 className="text-2xl font-bold mb-6">مقالات ذات صلة</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {morePosts.map(relatedPost => (
-                <Link key={relatedPost.id} href={`/blog/${relatedPost.slug}`} passHref>
-                  <a className="bg-white rounded-lg shadow-md overflow-hidden flex hover:shadow-lg transition-shadow">
-                    <div className="relative w-24 h-24 md:w-32 md:h-32">
-                      <StaticImage 
-                        src={getImagePath(relatedPost.coverImage)} 
-                        alt={relatedPost.title}
-                        style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                      />
-                    </div>
-                    <div className="p-4">
-                      <span className="text-xs bg-primary bg-opacity-10 text-primary px-2 py-1 rounded-full">
-                        {relatedPost.category}
-                      </span>
-                      <h3 className="font-bold mt-2 line-clamp-2">{relatedPost.title}</h3>
-                    </div>
-                  </a>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* زر المشاركة والنشر */}
-        <div className="bg-gray-50 rounded-lg p-6 text-center">
-          <h3 className="text-xl font-bold mb-4">هل أعجبك المقال؟ شاركه مع الآخرين!</h3>
-          <div className="flex justify-center space-x-4 rtl:space-x-reverse">
-            <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(
-                `${siteUrl}/blog/${post.slug}`
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#1da1f2] text-white p-3 rounded-full"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.054 10.054 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-              </svg>
-            </a>
-            <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                `${siteUrl}/blog/${post.slug}`
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#3b5998] text-white p-3 rounded-full"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-              </svg>
-            </a>
-            <a
-              href={`https://wa.me/?text=${encodeURIComponent(
-                `${post.title} ${siteUrl}/blog/${post.slug}`
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#25D366] text-white p-3 rounded-full"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-                <path d="M12 4.435c-4.201 0-7.613 3.412-7.613 7.613 0 1.333.345 2.584.949 3.668l-1.008 3.678 3.76-.987c1.041.563 2.226.883 3.487.883 4.201 0 7.614-3.411 7.614-7.613 0-4.201-3.414-7.613-7.614-7.613zm0 13.901c-1.21 0-2.353-.34-3.328-.927l-.24-.144-2.47.649.662-2.425-.156-.24c-.62-.991-.958-2.138-.958-3.338 0-3.446 2.804-6.25 6.25-6.25s6.25 2.804 6.25 6.25c0 3.447-2.804 6.25-6.25 6.25zm-3.003-4.599c-.161-.08-.957-.471-1.105-.52-.148-.05-.255-.074-.362.074-.107.149-.416.52-.51.627-.094.106-.188.12-.348.04-.16-.08-.676-.249-1.287-.795-.476-.424-.798-.949-.891-1.107-.093-.159-.01-.245.07-.324.071-.071.158-.187.237-.28.079-.093.106-.16.159-.266.053-.107.027-.2-.013-.28-.04-.08-.362-.866-.495-1.187-.13-.313-.26-.267-.36-.272-.093-.005-.2-.005-.307-.005-.107 0-.278.04-.423.2-.147.16-.559.546-.559 1.333s.571 1.546.651 1.653c.08.107 1.119 1.705 2.74 2.4.381.166.679.266.912.34.383.121.731.104.997.066.305-.045.957-.391 1.092-.768.135-.376.135-.699.095-.766-.04-.066-.148-.106-.308-.187z" />
-              </svg>
-            </a>
-          </div>
-        </div>
+      {/* Reading Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
+        <div 
+          className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-300"
+          style={{ width: `${readingProgress}%` }}
+        />
       </div>
+
+      {/* Article Header */}
+      <article className="relative">
+        {/* Hero Section with Parallax Effect */}
+        <div className="relative h-[70vh] min-h-[500px] mb-12 overflow-hidden">
+          <div className="absolute inset-0">
+            <StaticImage 
+              src={coverImage} 
+              alt={post.title}
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+              loading="eager"
+              priority={true}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+          </div>
+          
+          <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+            <div className="max-w-4xl mx-auto">
+              {/* Breadcrumb */}
+              <nav className="flex items-center text-sm mb-6" aria-label="Breadcrumb">
+                <Link href="/" passHref>
+                  <a className="hover:text-accent transition-colors">الرئيسية</a>
+                </Link>
+                <span className="mx-2">/</span>
+                <Link href="/blog" passHref>
+                  <a className="hover:text-accent transition-colors">المدونة</a>
+                </Link>
+                <span className="mx-2">/</span>
+                <span className="text-accent">{post.category}</span>
+              </nav>
+              
+              {/* Title */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                {post.title}
+              </h1>
+              
+              {/* Meta Info */}
+              <div className="flex flex-wrap items-center gap-6 text-sm">
+                <div className="flex items-center">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden ml-3">
+                    <StaticImage 
+                      src={authorAvatar} 
+                      alt={post.author.name}
+                      width={48}
+                      height={48}
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div>
+                    <p className="font-semibold">{post.author.name}</p>
+                    <p className="text-gray-300">{post.author.title}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4 text-gray-300">
+                  <span className="flex items-center">
+                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {post.date}
+                  </span>
+                  <span className="flex items-center">
+                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {post.readingTime} دقائق قراءة
+                  </span>
+                  <span className="flex items-center">
+                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    {Math.floor(Math.random() * 5000) + 1000} مشاهدة
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Article Content */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Table of Contents */}
+          <div className="bg-gray-50 rounded-2xl p-6 mb-12">
+            <h2 className="text-2xl font-bold mb-4 flex items-center">
+              <svg className="w-6 h-6 ml-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              محتويات المقال
+            </h2>
+            <nav className="space-y-2">
+              <a href="#section1" className="block py-2 px-4 rounded-lg hover:bg-white transition-colors">1. المقدمة</a>
+              <a href="#section2" className="block py-2 px-4 rounded-lg hover:bg-white transition-colors">2. النقاط الرئيسية</a>
+              <a href="#section3" className="block py-2 px-4 rounded-lg hover:bg-white transition-colors">3. التفاصيل المهمة</a>
+              <a href="#section4" className="block py-2 px-4 rounded-lg hover:bg-white transition-colors">4. النصائح والإرشادات</a>
+              <a href="#section5" className="block py-2 px-4 rounded-lg hover:bg-white transition-colors">5. الخلاصة</a>
+            </nav>
+          </div>
+
+          {/* Main Content */}
+          <div className="prose prose-lg prose-gray max-w-none mb-12">
+            <div dangerouslySetInnerHTML={{ __html: post.content }} />
+          </div>
+
+          {/* Tags */}
+          {post.tags && post.tags.length > 0 && (
+            <div className="mb-12">
+              <h3 className="text-xl font-bold mb-4">الكلمات المفتاحية</h3>
+              <div className="flex flex-wrap gap-2">
+                {post.tags.map((tag, index) => (
+                  <Link key={index} href={`/blog?tag=${tag}`} passHref>
+                    <a className="inline-block bg-gray-100 hover:bg-primary hover:text-white text-gray-700 px-4 py-2 rounded-full text-sm transition-colors">
+                      #{tag}
+                    </a>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Author Bio */}
+          <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-8 mb-12">
+            <div className="flex items-start">
+              <div className="relative w-20 h-20 rounded-full overflow-hidden ml-6">
+                <StaticImage 
+                  src={authorAvatar} 
+                  alt={post.author.name}
+                  width={80}
+                  height={80}
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold mb-2">عن الكاتب</h3>
+                <h4 className="text-xl font-semibold text-primary mb-2">{post.author.name}</h4>
+                <p className="text-gray-600 mb-4">{post.author.title}</p>
+                <p className="text-gray-700">
+                  خبير في مجال نقل العفش والأثاث مع خبرة تزيد عن 10 سنوات في تقديم النصائح والإرشادات المتخصصة في هذا المجال.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Related Articles */}
+          {morePosts.length > 0 && (
+            <div className="mb-12">
+              <h2 className="text-3xl font-bold mb-8 text-center">مقالات ذات صلة</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {morePosts.map(relatedPost => (
+                  <Link key={relatedPost.id} href={`/blog/${relatedPost.slug}`} passHref>
+                    <a className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
+                      <div className="relative h-48 overflow-hidden">
+                        <StaticImage 
+                          src={getImagePath(relatedPost.coverImage)} 
+                          alt={relatedPost.title}
+                          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                          className="group-hover:scale-110 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                      <div className="p-6">
+                        <span className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium mb-3">
+                          {relatedPost.category}
+                        </span>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                          {relatedPost.title}
+                        </h3>
+                        <p className="text-gray-600 line-clamp-2">{relatedPost.excerpt}</p>
+                      </div>
+                    </a>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Share Section */}
+          <div className="bg-gradient-to-r from-primary to-accent text-white rounded-2xl p-8 text-center mb-12">
+            <h3 className="text-2xl font-bold mb-4">شارك هذا المقال</h3>
+            <p className="mb-6">إذا وجدت هذا المقال مفيداً، شاركه مع أصدقائك وعائلتك</p>
+            <div className="flex justify-center gap-4">
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`${siteUrl}/blog/${post.slug}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/20 hover:bg-white/30 p-4 rounded-full transition-colors"
+                aria-label="Share on Twitter"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.054 10.054 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                </svg>
+              </a>
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${siteUrl}/blog/${post.slug}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/20 hover:bg-white/30 p-4 rounded-full transition-colors"
+                aria-label="Share on Facebook"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+              </a>
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(`${post.title} ${siteUrl}/blog/${post.slug}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/20 hover:bg-white/30 p-4 rounded-full transition-colors"
+                aria-label="Share on WhatsApp"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                </svg>
+              </a>
+              <a
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${siteUrl}/blog/${post.slug}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/20 hover:bg-white/30 p-4 rounded-full transition-colors"
+                aria-label="Share on LinkedIn"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          {/* Newsletter Subscription */}
+          <div className="bg-gray-100 rounded-2xl p-8 text-center">
+            <h3 className="text-2xl font-bold mb-4">اشترك في نشرتنا البريدية</h3>
+            <p className="text-gray-600 mb-6">احصل على أحدث النصائح والمقالات حول نقل العفش مباشرة في بريدك الإلكتروني</p>
+            <form className="max-w-md mx-auto flex gap-4">
+              <input
+                type="email"
+                placeholder="أدخل بريدك الإلكتروني"
+                className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+              <button
+                type="submit"
+                className="bg-primary hover:bg-primary-dark text-white font-bold px-6 py-3 rounded-lg transition-colors"
+              >
+                اشترك
+              </button>
+            </form>
+          </div>
+        </div>
+      </article>
     </Layout>
   )
 }
@@ -253,15 +489,17 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const post = getPostBySlug(params.slug)
-  const morePosts = getAllPosts()
+  const allPosts = getAllPosts()
+  const morePosts = allPosts
     .filter(p => p.slug !== params.slug)
     .filter(p => p.category === post?.category)
-    .slice(0, 2)
+    .slice(0, 4)
   
   return {
     props: {
       post: post || null,
-      morePosts: morePosts || []
+      morePosts: morePosts || [],
+      allPosts: allPosts || []
     }
   }
 } 
