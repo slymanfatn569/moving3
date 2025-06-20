@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import OptimizedImage from './OptimizedImage'
 
-const RelatedPosts = ({ posts, getImagePath }) => {
+const RelatedPosts = ({ posts }) => {
   if (!posts || posts.length === 0) {
     return null;
   }
@@ -25,10 +25,12 @@ const RelatedPosts = ({ posts, getImagePath }) => {
               <a className="block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
                 <div className="relative h-56 overflow-hidden">
                   <OptimizedImage 
-                    src={getImagePath(relatedPost.coverImage)} 
+                    src={relatedPost.coverImage || '/images/placeholder.jpg'} 
                     alt={relatedPost.title}
-                    style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                    className="group-hover:scale-110 transition-transform duration-500"
+                    width={400}
+                    height={224}
+                    objectFit="cover"
+                    className="w-full h-full group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   

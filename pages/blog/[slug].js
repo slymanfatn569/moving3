@@ -3,30 +3,13 @@ import Layout from '../../components/Layout'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import StaticImage from '../../components/StaticImage'
+import OptimizedImage from '../../components/OptimizedImage'
 import RelatedPosts from '../../components/RelatedPosts'
 import { getAllPosts, getPostBySlug } from '../../lib/blog'
 
-// Determine basePath for images
-const getBasePath = () => {
-  if (typeof window !== 'undefined') {
-    if (window.location.hostname.includes('github.io')) {
-      return '/moving3';
-    }
-  }
-  return '';
-};
-
 export default function PostPage({ post, morePosts, allPosts }) {
   const router = useRouter()
-  const basePath = getBasePath();
   const [readingProgress, setReadingProgress] = useState(0);
-
-  // Helper function to get the correct image path
-  const getImagePath = (imagePath) => {
-    if (!imagePath) return `${basePath}/images/placeholder.jpg`;
-    return imagePath.startsWith('/') ? `${basePath}${imagePath}` : `${basePath}/${imagePath}`;
-  };
 
   // Reading progress indicator
   useEffect(() => {
@@ -73,10 +56,9 @@ export default function PostPage({ post, morePosts, allPosts }) {
     )
   }
 
-  const coverImage = getImagePath(post.coverImage);
-  const authorAvatar = getImagePath(post.author.avatar);
   const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://slymanfatn569.github.io';
-  const fullImageUrl = `${siteUrl}${coverImage}`;
+  const basePath = process.env.NODE_ENV === 'production' ? '/moving3' : '';
+  const fullImageUrl = `${siteUrl}${basePath}${post.coverImage}`;
   const currentDate = new Date().toISOString();
 
   // Generate FAQ Schema
@@ -168,7 +150,7 @@ export default function PostPage({ post, morePosts, allPosts }) {
                 "@type": "Person",
                 "name": post.author.name,
                 "url": `${siteUrl}/about#${post.author.id}`,
-                "image": `${siteUrl}${authorAvatar}`
+                "image": `${siteUrl}${basePath}${post.author.avatar}`
               },
               "publisher": {
                 "@type": "Organization",
@@ -249,12 +231,14 @@ export default function PostPage({ post, morePosts, allPosts }) {
         {/* Hero Section with Parallax Effect */}
         <div className="relative h-[70vh] min-h-[500px] mb-12 overflow-hidden">
           <div className="absolute inset-0">
-            <StaticImage 
-              src={coverImage} 
+            <OptimizedImage 
+              src={post.coverImage} 
               alt={post.title}
-              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-              loading="eager"
+              width={1920}
+              height={1080}
+              objectFit="cover"
               priority={true}
+              className="w-full h-full"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
           </div>
@@ -283,12 +267,12 @@ export default function PostPage({ post, morePosts, allPosts }) {
               <div className="flex flex-wrap items-center gap-6 text-sm">
                 <div className="flex items-center">
                   <div className="relative w-12 h-12 rounded-full overflow-hidden ml-3">
-                    <StaticImage 
-                      src={authorAvatar} 
+                    <OptimizedImage 
+                      src={post.author.avatar} 
                       alt={post.author.name}
                       width={48}
                       height={48}
-                      style={{ objectFit: 'cover' }}
+                      objectFit="cover"
                     />
                   </div>
                   <div>
@@ -367,12 +351,12 @@ export default function PostPage({ post, morePosts, allPosts }) {
           <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-8 mb-12">
             <div className="flex items-start">
               <div className="relative w-20 h-20 rounded-full overflow-hidden ml-6">
-                <StaticImage 
-                  src={authorAvatar} 
+                <OptimizedImage 
+                  src={post.author.avatar} 
                   alt={post.author.name}
                   width={80}
                   height={80}
-                  style={{ objectFit: 'cover' }}
+                  objectFit="cover"
                 />
               </div>
               <div className="flex-1">
@@ -387,7 +371,7 @@ export default function PostPage({ post, morePosts, allPosts }) {
           </div>
 
           {/* Related Articles - Enhanced */}
-          <RelatedPosts posts={morePosts} getImagePath={getImagePath} />
+          <RelatedPosts posts={morePosts} />
 
           {/* Share Section */}
           <div className="bg-gradient-to-r from-primary to-accent text-white rounded-2xl p-8 text-center mb-12">

@@ -2,30 +2,20 @@ import React from 'react';
 import Link from 'next/link';
 import OptimizedImage from './OptimizedImage';
 
-// Determine basePath for images
-const getBasePath = () => {
-  // For GitHub Pages we need to prepend the basePath
-  if (typeof window !== 'undefined') {
-    // Check if we're on GitHub Pages
-    if (window.location.hostname.includes('github.io')) {
-      return '/moving3';
-    }
-  }
-  return '';
-};
-
 // Helper function to get category icon
 const getCategoryIcon = (category) => {
   const icons = {
     'نصائح النقل': '💡',
     'دليل التغليف': '📦',
     'العناية بالأثاث': '🛋️',
+    'رعاية الأثاث': '🛋️',
     'تقدير التكلفة': '💰',
     'أخبار الشركة': '📢',
     'قصص نجاح': '⭐',
     'نقل المكاتب': '🏢',
     'نقل المنازل': '🏠',
-    'تخزين': '🏪'
+    'تخزين': '🏪',
+    'خدمات متخصصة': '🔧'
   };
   return icons[category] || '📝';
 };
@@ -36,18 +26,6 @@ export default function BlogCard({ post, featured = false }) {
     return null;
   }
 
-  const basePath = getBasePath();
-  const coverImage = post.coverImage ? 
-    (post.coverImage.startsWith('/') ? `${basePath}${post.coverImage}` : `${basePath}/${post.coverImage}`) 
-    : `${basePath}/images/placeholder.jpg`;
-  
-  const authorAvatar = post.author && post.author.avatar ? 
-    (post.author.avatar.startsWith('/') ? `${basePath}${post.author.avatar}` : `${basePath}/${post.author.avatar}`) 
-    : `${basePath}/images/placeholder-avatar.jpg`;
-
-  const placeholderImage = `${basePath}/images/placeholder.jpg`;
-  const placeholderAvatar = `${basePath}/images/placeholder-avatar.jpg`;
-
   const categoryIcon = getCategoryIcon(post.category);
 
   return (
@@ -56,15 +34,12 @@ export default function BlogCard({ post, featured = false }) {
         <a className="block">
           <div className="relative h-56 overflow-hidden">
             <OptimizedImage 
-              src={coverImage} 
+              src={post.coverImage || '/images/placeholder.jpg'} 
               alt={post.title || 'مقال المدونة'} 
               width={600}
               height={400}
-              style={{ objectFit: 'cover' }}
+              objectFit="cover"
               className="w-full h-full group-hover:scale-110 transition-transform duration-500"
-              onError={(e) => {
-                e.target.src = placeholderImage;
-              }}
             />
             
             {/* Overlay gradient */}
@@ -140,14 +115,11 @@ export default function BlogCard({ post, featured = false }) {
                 <div className="flex items-center">
                   <div className="relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-gray-200 group-hover:ring-primary transition-colors duration-300">
                     <OptimizedImage 
-                      src={authorAvatar} 
+                      src={post.author.avatar || '/images/placeholder-avatar.jpg'} 
                       alt={post.author.name || 'اسم الكاتب'}
                       width={40}
                       height={40}
-                      style={{ objectFit: 'cover' }}
-                      onError={(e) => {
-                        e.target.src = placeholderAvatar;
-                      }}
+                      objectFit="cover"
                     />
                   </div>
                   <div className="mr-3">

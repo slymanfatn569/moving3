@@ -6,7 +6,6 @@ import { getAllPosts } from '../lib/blog'
 import BlogCard from '../components/BlogCard'
 import Head from 'next/head'
 import OptimizedImage from '../components/OptimizedImage'
-import StaticImage from '../components/StaticImage'
 import { useRouter } from 'next/router'
 import SEO from '../components/SEO'
 
@@ -582,7 +581,7 @@ export default function Home({ featuredPosts }) {
               مع ضمان أعلى معايير الجودة والأمان
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service) => (
               <div key={service.id} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100">
@@ -627,7 +626,7 @@ export default function Home({ featuredPosts }) {
           </div>
         </div>
       </section>
-
+      
       {/* عملية النقل خطوة بخطوة */}
       <ProcessSection />
 
@@ -641,7 +640,7 @@ export default function Home({ featuredPosts }) {
               لضمان تجربة نقل مثالية لكل عميل
             </p>
           </div>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {whyChooseUs.map((feature) => (
               <div key={feature.id} className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 text-center">
@@ -659,7 +658,7 @@ export default function Home({ featuredPosts }) {
           </div>
         </div>
       </section>
-      
+
       {/* Blog Section */}
       {featuredPosts && featuredPosts.length > 0 && (
         <section className="py-20 bg-gray-50">
