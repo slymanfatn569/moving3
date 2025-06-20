@@ -315,8 +315,8 @@ export default function Home({ featuredPosts }) {
           </div>
 
           {/* مدن جدة */}
-          <div className="mb-16">
-            <div className="flex items-center justify-center mb-8">
+          <div className="mb-20">
+            <div className="flex items-center justify-center mb-12">
               <div className="text-4xl ml-4">🌊</div>
               <h3 className="text-3xl font-bold text-primary">جدة - عروس البحر الأحمر</h3>
             </div>
@@ -329,7 +329,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الروضة</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني راقي</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -342,7 +342,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الحمراء</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي مركزي متكامل</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -355,7 +355,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الأندلس</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي نابض بالحياة</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -368,7 +368,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الزهراء</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي عائلي مميز</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -381,7 +381,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">السلامة</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي راسخ ومتطور</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -394,7 +394,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الشاطئ</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي ساحلي فاخر</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -407,7 +407,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الصفا</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني هادئ</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -420,7 +420,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الخالدية</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي تجاري مزدحم</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -433,7 +433,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الرحاب</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني حديث</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -446,7 +446,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">النهضة</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي متطور شرقي</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -459,7 +459,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الورود</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني هادئ</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -472,7 +472,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">المروة</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي راقي شمالي</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -485,7 +485,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">النسيم</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي حيوي شرقي</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -498,7 +498,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">البساتين</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي أخضر منظم</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -511,7 +511,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الفيصلية</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي تجاري نشط</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">عرض الخدمات ←</span>
+                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -519,8 +519,8 @@ export default function Home({ featuredPosts }) {
           </div>
 
           {/* مدن الرياض */}
-          <div className="mb-16">
-            <div className="flex items-center justify-center mb-8">
+          <div className="mb-20">
+            <div className="flex items-center justify-center mb-12">
               <div className="text-4xl ml-4">🏙️</div>
               <h3 className="text-3xl font-bold text-blue-600">الرياض - عاصمة المملكة</h3>
             </div>
@@ -533,7 +533,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">العليا</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي تجاري راقي</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-blue-600 font-medium">عرض الخدمات ←</span>
+                    <span className="text-blue-600 font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -546,7 +546,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">الملز</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي تاريخي مركزي</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-blue-600 font-medium">عرض الخدمات ←</span>
+                    <span className="text-blue-600 font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -559,7 +559,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">النرجس</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني حديث</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-blue-600 font-medium">عرض الخدمات ←</span>
+                    <span className="text-blue-600 font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -572,7 +572,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">حطين</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني راقي</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-blue-600 font-medium">عرض الخدمات ←</span>
+                    <span className="text-blue-600 font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -585,7 +585,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">الياسمين</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني مخطط</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-blue-600 font-medium">عرض الخدمات ←</span>
+                    <span className="text-blue-600 font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -593,8 +593,8 @@ export default function Home({ featuredPosts }) {
           </div>
 
           {/* مدن الدمام */}
-          <div className="mb-16">
-            <div className="flex items-center justify-center mb-8">
+          <div className="mb-20">
+            <div className="flex items-center justify-center mb-12">
               <div className="text-4xl ml-4">🏭</div>
               <h3 className="text-3xl font-bold text-purple-600">الدمام - عاصمة الشرقية</h3>
             </div>
@@ -607,7 +607,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors mb-2">الفيصلية</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني متكامل</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-purple-600 font-medium">عرض الخدمات ←</span>
+                    <span className="text-purple-600 font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -620,7 +620,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors mb-2">الشاطئ</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي ساحلي فاخر</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-purple-600 font-medium">عرض الخدمات ←</span>
+                    <span className="text-purple-600 font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -633,7 +633,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors mb-2">العزيزية</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي تجاري نشط</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-purple-600 font-medium">عرض الخدمات ←</span>
+                    <span className="text-purple-600 font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -646,7 +646,7 @@ export default function Home({ featuredPosts }) {
                   <h4 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors mb-2">أحد</h4>
                   <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني هادئ</p>
                   <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-purple-600 font-medium">عرض الخدمات ←</span>
+                    <span className="text-purple-600 font-medium">تفاصيل المنطقة</span>
                   </div>
                 </a>
               </Link>
@@ -654,19 +654,29 @@ export default function Home({ featuredPosts }) {
           </div>
 
           {/* إحصائيات سريعة */}
-          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 text-white text-center">
+          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 text-white text-center mb-12 shadow-xl">
+            <h3 className="text-2xl font-bold mb-8">إحصائياتنا في خدمة المناطق</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
+              <div className="text-center transform hover:scale-105 transition-transform duration-300">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                  🏘️
+                </div>
                 <div className="text-4xl font-bold mb-2">25+</div>
-                <div className="text-lg">منطقة نخدمها</div>
+                <div className="text-lg opacity-90">منطقة نخدمها</div>
               </div>
-              <div>
+              <div className="text-center transform hover:scale-105 transition-transform duration-300">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                  🏙️
+                </div>
                 <div className="text-4xl font-bold mb-2">3</div>
-                <div className="text-lg">مدن رئيسية</div>
+                <div className="text-lg opacity-90">مدن رئيسية</div>
               </div>
-              <div>
+              <div className="text-center transform hover:scale-105 transition-transform duration-300">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                  ✅
+                </div>
                 <div className="text-4xl font-bold mb-2">100%</div>
-                <div className="text-lg">تغطية محلية</div>
+                <div className="text-lg opacity-90">تغطية محلية</div>
               </div>
             </div>
           </div>
@@ -674,7 +684,7 @@ export default function Home({ featuredPosts }) {
           {/* دعوة للعمل */}
           <div className="text-center mt-12">
             <Link href="/areas" passHref>
-              <a className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+              <a className="inline-flex items-center bg-gradient-to-r from-primary to-accent hover:from-primary-dark hover:to-accent-dark text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
                 <span className="ml-2">🗺️</span>
                 عرض جميع المناطق والتفاصيل
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
