@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import StaticImage from './StaticImage';
+import OptimizedImage from './OptimizedImage';
 
 // Determine basePath for images
 const getBasePath = () => {
@@ -55,7 +55,7 @@ export default function BlogCard({ post, featured = false }) {
       <Link href={`/blog/${post.slug}`} passHref>
         <a className="block">
           <div className="relative h-56 overflow-hidden">
-            <StaticImage 
+            <OptimizedImage 
               src={coverImage} 
               alt={post.title || 'مقال المدونة'} 
               width={600}
@@ -139,7 +139,7 @@ export default function BlogCard({ post, featured = false }) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <div className="relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-gray-200 group-hover:ring-primary transition-colors duration-300">
-                    <StaticImage 
+                    <OptimizedImage 
                       src={authorAvatar} 
                       alt={post.author.name || 'اسم الكاتب'}
                       width={40}

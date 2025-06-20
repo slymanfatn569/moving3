@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import StaticImage from './StaticImage'
+import OptimizedImage from './OptimizedImage'
 
 const RelatedPosts = ({ posts, getImagePath }) => {
   if (!posts || posts.length === 0) {
@@ -24,7 +24,7 @@ const RelatedPosts = ({ posts, getImagePath }) => {
             <Link href={`/blog/${relatedPost.slug}`} passHref>
               <a className="block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
                 <div className="relative h-56 overflow-hidden">
-                  <StaticImage 
+                  <OptimizedImage 
                     src={getImagePath(relatedPost.coverImage)} 
                     alt={relatedPost.title}
                     style={{ objectFit: 'cover', width: '100%', height: '100%' }}

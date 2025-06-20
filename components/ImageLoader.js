@@ -33,12 +33,25 @@ const ImageLoader = ({
   quality = 85,
   ...rest
 }) => {
-  const [loading, setLoading] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  
+  // Reset states when src changes
+  useEffect(() => {
+    setImageLoaded(false);
+    setImageError(false);
+  }, [src]);
   
   // معالجة تحميل الصورة
   const handleLoad = (e) => {
-    setLoading(false);
+    setImageLoaded(true);
     if (onLoad) onLoad(e);
+  };
+
+  // معالجة خطأ تحميل الصورة
+  const handleError = (e) => {
+    setImageError(true);
+    setImageLoaded(true);
   };
   
   return (
@@ -50,11 +63,11 @@ const ImageLoader = ({
       }}
       onClick={onClick}
     >
-      {loading && (
-        <div
-          className="absolute inset-0 flex items-center justify-center bg-gray-100"
-          dangerouslySetInnerHTML={{ __html: shimmer(width, height) }}
-        />
+      {/* Placeholder shown while loading */}
+      {!imageLoaded && (
+        <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+          <div className="w-8 h-8 bg-gray-300 rounded animate-pulse"></div>
+        </div>
       )}
       
       <StaticImage
@@ -63,11 +76,13 @@ const ImageLoader = ({
         width={width}
         height={height}
         onLoad={handleLoad}
+        onError={handleError}
         loading={priority ? 'eager' : 'lazy'}
         style={{ 
-          objectFit, 
-          opacity: loading ? 0 : 1,
-          transition: 'opacity 0.3s ease-in-out',
+          objectFit,
+          width: '100%',
+          height: '100%',
+          display: 'block'
         }}
         {...rest}
       />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 // Determine basePath for images
@@ -13,40 +13,52 @@ const getBasePath = () => {
   return '';
 };
 
-const OptimizedImage = ({ 
-  src, 
-  alt, 
-  width, 
-  height, 
-  className = '', 
+const OptimizedImage = ({
+  src,
+  alt = 'صورة',
+  className = '',
+  width,
+  height,
+  objectFit = 'cover',
   priority = false,
-  placeholder = 'blur'
+  onLoad,
+  onError,
+  ...rest
 }) => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  
-  // Handle base path for production
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const [imageSrc, setImageSrc] = useState('');
+
+  // إضافة basePath للصور في الإنتاج
   const basePath = process.env.NODE_ENV === 'production' ? '/moving3' : '';
   
-  // Fix image path
-  const imageSrc = src && src.startsWith('/') ? `${basePath}${src}` : src;
-  
-  // Fallback image with correct path
-  const fallbackSrc = `${basePath}/images/placeholder.jpg`;
-  
-  const handleLoad = () => {
-    setLoading(false);
+  useEffect(() => {
+    if (src) {
+      const finalSrc = src.startsWith('/') ? `${basePath}${src}` : src;
+      setImageSrc(finalSrc);
+      setImageLoaded(false);
+      setImageError(false);
+    }
+  }, [src, basePath]);
+
+  const handleLoad = (e) => {
+    setImageLoaded(true);
+    if (onLoad) onLoad(e);
   };
-  
-  const handleError = () => {
-    setError(true);
-    setLoading(false);
+
+  const handleError = (e) => {
+    setImageError(true);
+    setImageLoaded(true);
+    // Use placeholder image
+    const placeholderSrc = `${basePath}/images/placeholder.jpg`;
+    e.target.src = placeholderSrc;
+    if (onError) onError(e);
   };
 
   // Create blur data URL
   const blurDataURL = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkbHB0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==';
 
-  if (error) {
+  if (imageError) {
     return (
       <div className={`bg-gray-200 flex items-center justify-center ${className}`}>
         <span className="text-gray-500">صورة غير متوفرة</span>
@@ -55,28 +67,32 @@ const OptimizedImage = ({
   }
 
   return (
-    <div className={`relative ${className}`}>
-      <Image
-        src={imageSrc || fallbackSrc}
-        alt={alt}
-        width={width}
-        height={height}
-        priority={priority}
-        placeholder={placeholder}
-        blurDataURL={blurDataURL}
-        onLoad={handleLoad}
-        onError={handleError}
-        className={`transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
-        style={{
-          maxWidth: '100%',
-          height: 'auto',
-        }}
-      />
-      {loading && (
+    <div 
+      className={`relative overflow-hidden bg-gray-100 ${className}`}
+      style={{ width, height }}
+    >
+      {/* Loading state */}
+      {!imageLoaded && !imageError && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-          <div className="text-gray-500">جاري التحميل...</div>
+          <div className="w-12 h-12 border-4 border-gray-300 border-t-primary rounded-full animate-spin"></div>
         </div>
       )}
+
+      {/* Image */}
+      <img
+        src={imageSrc}
+        alt={alt}
+        onLoad={handleLoad}
+        onError={handleError}
+        loading={priority ? 'eager' : 'lazy'}
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit,
+          transition: 'transform 0.3s ease-in-out',
+        }}
+        {...rest}
+      />
     </div>
   );
 };

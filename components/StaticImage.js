@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const StaticImage = ({
   src,
@@ -8,20 +8,30 @@ const StaticImage = ({
   height,
   style = {},
   loading = 'lazy',
+  onLoad,
   onError,
   ...rest
 }) => {
+  const [hasError, setHasError] = useState(false);
+  
   // إضافة basePath للصور في الإنتاج
   const basePath = process.env.NODE_ENV === 'production' ? '/moving3' : '';
   
   // معالجة مسار الصورة
-  const imageSrc = src.startsWith('/') ? `${basePath}${src}` : src;
+  const imageSrc = src?.startsWith('/') ? `${basePath}${src}` : src;
   const placeholderSrc = `${basePath}/images/placeholder.jpg`;
 
   // إعداد المعالجة للصورة البديلة في حالة الخطأ
   const handleError = (e) => {
-    e.target.src = placeholderSrc;
+    if (!hasError) {
+      setHasError(true);
+      e.target.src = placeholderSrc;
+    }
     if (onError) onError(e);
+  };
+
+  const handleLoad = (e) => {
+    if (onLoad) onLoad(e);
   };
 
   return (
@@ -31,8 +41,13 @@ const StaticImage = ({
       className={className}
       width={width}
       height={height}
-      style={style}
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+        ...style
+      }}
       loading={loading}
+      onLoad={handleLoad}
       onError={handleError}
       {...rest}
     />
