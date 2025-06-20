@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import StaticImage from '../../components/StaticImage'
+import RelatedPosts from '../../components/RelatedPosts'
 import { getAllPosts, getPostBySlug } from '../../lib/blog'
 
 // Determine basePath for images
@@ -123,6 +124,27 @@ export default function PostPage({ post, morePosts, allPosts }) {
         
         {/* Canonical URL */}
         <link rel="canonical" href={`${siteUrl}/blog/${post.slug}`} />
+        
+        {/* Custom CSS for Enhanced Styles */}
+        <style jsx>{`
+          .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+          .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+          .bg-clip-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+          }
+        `}</style>
         
         {/* Structured Data */}
         <script
@@ -364,38 +386,8 @@ export default function PostPage({ post, morePosts, allPosts }) {
             </div>
           </div>
 
-          {/* Related Articles */}
-          {morePosts.length > 0 && (
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold mb-8 text-center">مقالات ذات صلة</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {morePosts.map(relatedPost => (
-                  <Link key={relatedPost.id} href={`/blog/${relatedPost.slug}`} passHref>
-                    <a className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
-                      <div className="relative h-48 overflow-hidden">
-                        <StaticImage 
-                          src={getImagePath(relatedPost.coverImage)} 
-                          alt={relatedPost.title}
-                          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                          className="group-hover:scale-110 transition-transform duration-300"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </div>
-                      <div className="p-6">
-                        <span className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium mb-3">
-                          {relatedPost.category}
-                        </span>
-                        <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
-                          {relatedPost.title}
-                        </h3>
-                        <p className="text-gray-600 line-clamp-2">{relatedPost.excerpt}</p>
-                      </div>
-                    </a>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Related Articles - Enhanced */}
+          <RelatedPosts posts={morePosts} getImagePath={getImagePath} />
 
           {/* Share Section */}
           <div className="bg-gradient-to-r from-primary to-accent text-white rounded-2xl p-8 text-center mb-12">
@@ -490,15 +482,54 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const post = getPostBySlug(params.slug)
   const allPosts = getAllPosts()
-  const morePosts = allPosts
+  
+  if (!post) {
+    return {
+      props: {
+        post: null,
+        morePosts: [],
+        allPosts: []
+      }
+    }
+  }
+  
+  // خوارزمية محسنة لاختيار المقالات المتعلقة
+  const relatedPosts = allPosts
     .filter(p => p.slug !== params.slug)
-    .filter(p => p.category === post?.category)
-    .slice(0, 4)
+    .map(p => {
+      let score = 0;
+      
+      // إعطاء أولوية للمقالات من نفس الفئة
+      if (p.category === post.category) {
+        score += 10;
+      }
+      
+      // إعطاء نقاط للمقالات المميزة
+      if (p.featured) {
+        score += 5;
+      }
+      
+      // إعطاء نقاط للتطابق في الكلمات المفتاحية
+      if (post.tags && p.tags) {
+        const commonTags = post.tags.filter(tag => p.tags.includes(tag));
+        score += commonTags.length * 3;
+      }
+      
+      // إعطاء نقاط للمقالات الحديثة
+      const postDate = new Date(p.date);
+      const currentDate = new Date();
+      const daysDiff = (currentDate - postDate) / (1000 * 60 * 60 * 24);
+      if (daysDiff <= 30) score += 2; // مقالات آخر 30 يوم
+      
+      return { ...p, score };
+    })
+    .sort((a, b) => b.score - a.score) // ترتيب حسب النقاط
+    .slice(0, 6); // أخذ أفضل 6 مقالات
   
   return {
     props: {
-      post: post || null,
-      morePosts: morePosts || [],
+      post,
+      morePosts: relatedPosts,
       allPosts: allPosts || []
     }
   }

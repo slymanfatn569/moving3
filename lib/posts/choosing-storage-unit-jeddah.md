@@ -1,7 +1,7 @@
 ---
 title: 'اختيار وحدة التخزين المثالية في جدة 2025: دليل متخصص للمناخ الساحلي وأفضل المنشآت المُبردة'
 excerpt: 'دليل تقني وعلمي شامل لاختيار أفضل وحدات التخزين في جدة، مع تحليل عميق لتأثير المناخ الساحلي وأحدث تقنيات الحفظ والحماية من الرطوبة لضمان سلامة أثاثك.'
-coverImage: '/images/storage_and_moving_solutions.jpeg'
+coverImage: '/images/secure_furniture_storage.jpeg'
 date: '2024-01-08'
 authorId: '2'
 category: 'خدمات التخزين'
