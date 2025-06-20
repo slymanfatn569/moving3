@@ -1,7 +1,7 @@
 ---
 title: 'قائمة فحص الشقة الجديدة 2025: دليل شامل لما يجب فعله قبل وبعد الانتقال'
 excerpt: 'قائمة تحقق شاملة ومتطورة لضمان انتقال مثالي إلى شقتك الجديدة، تشمل الفحوصات الأساسية والمتقدمة والإجراءات القانونية والتقنية المطلوبة.'
-coverImage: '/images/apartment_moving_service.jpeg'
+coverImage: '/images/residential_moving_service.jpeg'
 date: '2024-01-10'
 authorId: '2'
 category: 'انتقال سكني'

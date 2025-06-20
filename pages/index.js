@@ -581,7 +581,7 @@ export default function Home({ featuredPosts }) {
                     width={400}
                     height={300}
                     className="w-full h-full group-hover:scale-110 transition-transform duration-500"
-                  />
+                />
                   <div className="absolute top-4 right-4 w-12 h-12 bg-white/90 rounded-full flex items-center justify-center text-2xl">
                     {service.icon}
               </div>
@@ -592,7 +592,7 @@ export default function Home({ featuredPosts }) {
                   </h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">
                     {service.description}
-                  </p>
+              </p>
                   <Link href={service.link} passHref>
                     <a className="inline-flex items-center text-primary font-bold hover:text-primary-dark transition-colors">
                       اقرأ المزيد
@@ -681,7 +681,7 @@ export default function Home({ featuredPosts }) {
           <p className="text-xl mb-10 max-w-3xl mx-auto leading-relaxed">
             احصل على استشارة مجانية وعرض سعر مخصص لاحتياجاتك في النقل. 
             فريقنا المختص جاهز لمساعدتك في كل خطوة
-          </p>
+            </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link href="/contact" passHref>
               <a className="bg-white text-primary hover:bg-gray-100 font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
@@ -707,6 +707,6 @@ export async function getStaticProps() {
     return {
       props: {
       featuredPosts
-    },
+      },
   }
 } 
