@@ -257,6 +257,16 @@ export default function Home({ featuredPosts }) {
             -webkit-box-orient: vertical;
             overflow: hidden;
           }
+          /* Slider scroll animation */
+          .slider-container {
+            scroll-behavior: smooth;
+          }
+          .slider-container:hover {
+            cursor: grab;
+          }
+          .slider-container:active {
+            cursor: grabbing;
+          }
         `}</style>
       </Head>
 
@@ -302,393 +312,143 @@ export default function Home({ featuredPosts }) {
       {/* الأرقام والإحصائيات */}
       <StatsSection />
 
-      {/* مناطق خدماتنا المحسنة */}
+      {/* سلايدر مناطق الخدمة المبسط */}
       <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">مناطق خدماتنا</h2>
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              نقدم خدمات نقل العفش والأثاث المتخصصة في أهم مدن ومناطق المملكة العربية السعودية
-              مع تغطية شاملة للأحياء السكنية والتجارية
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              نخدم أهم المدن والأحياء في المملكة العربية السعودية
             </p>
           </div>
 
-          {/* مدن جدة */}
-          <div className="mb-20">
-            <div className="flex items-center justify-center mb-12">
-              <div className="text-4xl ml-4">🌊</div>
-              <h3 className="text-3xl font-bold text-primary">جدة - عروس البحر الأحمر</h3>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-              <Link href="/areas/al-rawdah" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏡
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الروضة</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني راقي</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
+          {/* السلايدر */}
+          <div className="relative">
+            <div className="overflow-x-auto no-scrollbar slider-container">
+              <div className="flex gap-6 pb-4" style={{ width: 'max-content' }}>
+                {/* جدة */}
+                <Link href="/areas/al-rawdah" passHref>
+                  <a className="group flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100 w-64">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      🏡
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الروضة - جدة</h4>
+                    <p className="text-sm text-gray-600">حي سكني راقي</p>
+                  </a>
+                </Link>
 
-              <Link href="/areas/al-hamra" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-red-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏢
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الحمراء</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي مركزي متكامل</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
+                <Link href="/areas/al-hamra" passHref>
+                  <a className="group flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100 w-64">
+                    <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-red-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      🏢
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الحمراء - جدة</h4>
+                    <p className="text-sm text-gray-600">حي مركزي متكامل</p>
+                  </a>
+                </Link>
 
-              <Link href="/areas/al-andalus" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🌴
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الأندلس</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي نابض بالحياة</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
+                <Link href="/areas/al-andalus" passHref>
+                  <a className="group flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100 w-64">
+                    <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      🌴
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الأندلس - جدة</h4>
+                    <p className="text-sm text-gray-600">حي نابض بالحياة</p>
+                  </a>
+                </Link>
 
-              <Link href="/areas/al-zahra" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🌺
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الزهراء</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي عائلي مميز</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
+                <Link href="/areas/al-zahra" passHref>
+                  <a className="group flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100 w-64">
+                    <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      🌺
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الزهراء - جدة</h4>
+                    <p className="text-sm text-gray-600">حي عائلي مميز</p>
+                  </a>
+                </Link>
 
-              <Link href="/areas/al-salamah" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-teal-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏘️
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">السلامة</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي راسخ ومتطور</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
+                <Link href="/areas/al-salamah" passHref>
+                  <a className="group flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100 w-64">
+                    <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-teal-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      🏘️
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">السلامة - جدة</h4>
+                    <p className="text-sm text-gray-600">حي راسخ ومتطور</p>
+                  </a>
+                </Link>
 
-              <Link href="/areas/al-shati" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏖️
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الشاطئ</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي ساحلي فاخر</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
+                <Link href="/areas/al-shati" passHref>
+                  <a className="group flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100 w-64">
+                    <div className="w-16 h-16 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      🏖️
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الشاطئ - جدة</h4>
+                    <p className="text-sm text-gray-600">حي ساحلي فاخر</p>
+                  </a>
+                </Link>
 
-              <Link href="/areas/al-safa" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏠
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الصفا</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني هادئ</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
+                {/* الرياض */}
+                <Link href="/areas/al-olaya" passHref>
+                  <a className="group flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100 w-64">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      🏢
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">العليا - الرياض</h4>
+                    <p className="text-sm text-gray-600">حي تجاري راقي</p>
+                  </a>
+                </Link>
 
-              <Link href="/areas/al-khalidiyah" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-indigo-100 to-indigo-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏪
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الخالدية</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي تجاري مزدحم</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
+                <Link href="/areas/al-malaz" passHref>
+                  <a className="group flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100 w-64">
+                    <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      🏛️
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">الملز - الرياض</h4>
+                    <p className="text-sm text-gray-600">حي تاريخي مركزي</p>
+                  </a>
+                </Link>
 
-              <Link href="/areas/al-rihab" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-pink-100 to-pink-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏡
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الرحاب</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني حديث</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
+                <Link href="/areas/al-narjis" passHref>
+                  <a className="group flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100 w-64">
+                    <div className="w-16 h-16 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      🌼
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">النرجس - الرياض</h4>
+                    <p className="text-sm text-gray-600">حي سكني حديث</p>
+                  </a>
+                </Link>
 
-              <Link href="/areas/al-nahdah" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏗️
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">النهضة</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي متطور شرقي</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
+                {/* الدمام */}
+                <Link href="/areas/al-faisaliyah-dammam" passHref>
+                  <a className="group flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100 w-64">
+                    <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      🏘️
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors mb-2">الفيصلية - الدمام</h4>
+                    <p className="text-sm text-gray-600">حي سكني متكامل</p>
+                  </a>
+                </Link>
 
-              <Link href="/areas/al-worood" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-rose-100 to-rose-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🌹
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الورود</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني هادئ</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
-
-              <Link href="/areas/al-marwah" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏰
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">المروة</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي راقي شمالي</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
-
-              <Link href="/areas/al-naseem" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-lime-100 to-lime-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🌿
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">النسيم</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي حيوي شرقي</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
-
-              <Link href="/areas/al-basateen" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🌳
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">البساتين</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي أخضر منظم</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
-
-              <Link href="/areas/al-faisaliyah" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏬
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-primary transition-colors mb-2">الفيصلية</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي تجاري نشط</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-primary font-medium">تفاصيل المنطقة</span>
-              </div>
-                </a>
-              </Link>
-            </div>
-          </div>
-
-          {/* مدن الرياض */}
-          <div className="mb-20">
-            <div className="flex items-center justify-center mb-12">
-              <div className="text-4xl ml-4">🏙️</div>
-              <h3 className="text-3xl font-bold text-blue-600">الرياض - عاصمة المملكة</h3>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-              <Link href="/areas/al-olaya" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏢
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">العليا</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي تجاري راقي</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-blue-600 font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
-
-              <Link href="/areas/al-malaz" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏛️
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">الملز</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي تاريخي مركزي</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-blue-600 font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
-
-              <Link href="/areas/al-narjis" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🌼
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">النرجس</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني حديث</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-blue-600 font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
-
-              <Link href="/areas/hittin" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏰
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">حطين</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني راقي</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-blue-600 font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
-
-              <Link href="/areas/al-yasmin" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-pink-100 to-pink-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🌸
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">الياسمين</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني مخطط</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-blue-600 font-medium">تفاصيل المنطقة</span>
-              </div>
-                </a>
-              </Link>
-            </div>
-          </div>
-
-          {/* مدن الدمام */}
-          <div className="mb-20">
-            <div className="flex items-center justify-center mb-12">
-              <div className="text-4xl ml-4">🏭</div>
-              <h3 className="text-3xl font-bold text-purple-600">الدمام - عاصمة الشرقية</h3>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              <Link href="/areas/al-faisaliyah-dammam" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏘️
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors mb-2">الفيصلية</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني متكامل</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-purple-600 font-medium">تفاصيل المنطقة</span>
-                  </div>
-                </a>
-              </Link>
-
-              <Link href="/areas/al-shatea" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🌊
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors mb-2">الشاطئ</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي ساحلي فاخر</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-purple-600 font-medium">تفاصيل المنطقة</span>
-              </div>
-                </a>
-              </Link>
-
-              <Link href="/areas/al-aziziyah-dammam" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🏢
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors mb-2">العزيزية</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي تجاري نشط</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-purple-600 font-medium">تفاصيل المنطقة</span>
-            </div>
-                </a>
-              </Link>
-
-              <Link href="/areas/uhud" passHref>
-                <a className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    🌿
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors mb-2">أحد</h4>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">حي سكني هادئ</p>
-                  <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-purple-600 font-medium">تفاصيل المنطقة</span>
-              </div>
-                </a>
-              </Link>
-            </div>
-          </div>
-
-          {/* إحصائيات سريعة */}
-          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 text-white text-center mb-12 shadow-xl">
-            <h3 className="text-2xl font-bold mb-8">إحصائياتنا في خدمة المناطق</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center transform hover:scale-105 transition-transform duration-300">
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
-                  🏘️
-                </div>
-                <div className="text-4xl font-bold mb-2">25+</div>
-                <div className="text-lg opacity-90">منطقة نخدمها</div>
-              </div>
-              <div className="text-center transform hover:scale-105 transition-transform duration-300">
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
-                  🏙️
-                </div>
-                <div className="text-4xl font-bold mb-2">3</div>
-                <div className="text-lg opacity-90">مدن رئيسية</div>
-              </div>
-              <div className="text-center transform hover:scale-105 transition-transform duration-300">
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
-                  ✅
-                </div>
-                <div className="text-4xl font-bold mb-2">100%</div>
-                <div className="text-lg opacity-90">تغطية محلية</div>
+                <Link href="/areas/al-shatea" passHref>
+                  <a className="group flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-6 text-center border border-gray-100 w-64">
+                    <div className="w-16 h-16 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      🌊
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors mb-2">الشاطئ - الدمام</h4>
+                    <p className="text-sm text-gray-600">حي ساحلي فاخر</p>
+                  </a>
+                </Link>
               </div>
             </div>
           </div>
 
-          {/* دعوة للعمل */}
-          <div className="text-center mt-12">
+          {/* مؤشر التمرير */}
+          <div className="text-center mt-8">
+            <p className="text-gray-500 text-sm mb-4">← مرر لرؤية المزيد من المناطق →</p>
             <Link href="/areas" passHref>
-              <a className="inline-flex items-center bg-gradient-to-r from-primary to-accent hover:from-primary-dark hover:to-accent-dark text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+              <a className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
                 <span className="ml-2">🗺️</span>
-                عرض جميع المناطق والتفاصيل
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
+                عرض جميع المناطق
               </a>
             </Link>
           </div>

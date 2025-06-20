@@ -79,7 +79,7 @@ const ImageLoader = ({
         onError={handleError}
         loading={priority ? 'eager' : 'lazy'}
         style={{ 
-          objectFit,
+          objectFit, 
           width: '100%',
           height: '100%',
           display: 'block'
